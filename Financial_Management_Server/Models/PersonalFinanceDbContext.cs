@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Pomelo.EntityFrameworkCore.MySql.Scaffolding.Internal;
 
 namespace Financial_Management_Server.Models;
 
-public partial class PersonalFinanceDbContext : DbContext
+public partial class PersonalFinanceDbContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public PersonalFinanceDbContext()
     {
@@ -30,18 +32,14 @@ public partial class PersonalFinanceDbContext : DbContext
 
     public virtual DbSet<Transaction> Transactions { get; set; }
 
-    public virtual DbSet<User> Users { get; set; }
-
     public virtual DbSet<Usertaxprofile> Usertaxprofiles { get; set; }
 
     public virtual DbSet<Wallet> Wallets { get; set; }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see https://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=localhost;port=3306;database=PersonalFinanceDB;uid=root;pwd=123456;ssl mode=None;allowpublickeyretrieval=True", Microsoft.EntityFrameworkCore.ServerVersion.Parse("8.0.37-mysql"));
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
+
         modelBuilder
             .UseCollation("utf8mb4_0900_ai_ci")
             .HasCharSet("utf8mb4");
@@ -254,28 +252,9 @@ public partial class PersonalFinanceDbContext : DbContext
                 .HasConstraintName("transactions_ibfk_3");
         });
 
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.UserId).HasName("PRIMARY");
-
+        modelBuilder.Entity<User>(entity => {
             entity.ToTable("users");
-
-            entity.HasIndex(e => e.Email, "email").IsUnique();
-
-            entity.Property(e => e.UserId).HasColumnName("user_id");
-            entity.Property(e => e.CreatedAt)
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp")
-                .HasColumnName("created_at");
-            entity.Property(e => e.Email)
-                .HasMaxLength(100)
-                .HasColumnName("email");
-            entity.Property(e => e.Fullname)
-                .HasMaxLength(50)
-                .HasColumnName("fullname");
-            entity.Property(e => e.PasswordHash)
-                .HasMaxLength(255)
-                .HasColumnName("password_hash");
+            entity.Property(e => e.Id).HasColumnName("user_id");
         });
 
         modelBuilder.Entity<Usertaxprofile>(entity =>

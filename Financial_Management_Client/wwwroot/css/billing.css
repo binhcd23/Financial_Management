@@ -1,0 +1,234 @@
+﻿
+.credit-card-custom {
+    background: linear-gradient(310deg, #141727, #3a416f);
+    border-radius: 1rem !important;
+    border: none;
+    box-shadow: 0 8px 20px -5px rgba(0, 0, 0, 0.3);
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    transition: transform 0.3s ease;
+}
+
+    .credit-card-custom:hover {
+        transform: translateY(-5px);
+    }
+
+    .credit-card-custom h5 {
+        letter-spacing: 3px; /* Làm số thẻ cách thưa, dễ đọc */
+        font-weight: 700;
+    }
+
+.stat-card {
+    border-radius: 1rem !important;
+    border: none !important;
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05);
+    padding: 1.5rem !important;
+    background: #fff;
+}
+
+    .stat-card h5 {
+        font-size: 1.25rem !important;
+        font-weight: 700;
+        color: #344767;
+    }
+
+.icon-shape {
+    display: inline-flex !important; /* Quan trọng: Sử dụng flexbox */
+    align-items: center !important; /* Căn giữa theo chiều dọc */
+    justify-content: center !important; /* Căn giữa theo chiều ngang */
+    padding: 0 !important; /* Loại bỏ padding thừa gây lệch */
+}
+
+    /* Đảm bảo thẻ i bên trong không có margin/padding mặc định */
+    .icon-shape i {
+        top: 0 !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        line-height: 0 !important; /* Triệt tiêu khoảng cách dòng */
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+    }
+
+.bg-gradient-primary {
+    background-image: linear-gradient(310deg, #7928ca, #ff0080) !important;
+}
+
+.card-plain {
+    border: 1px solid #e9ecef !important;
+    border-radius: 0.75rem !important;
+    background-color: transparent;
+    transition: all 0.2s ease;
+}
+
+    .card-plain:hover {
+        background-color: #f8f9fa;
+        border-color: #cb0c9f !important;
+    }
+
+    .card-plain h6 {
+        font-size: 0.9rem !important;
+        font-weight: 600;
+    }
+
+.table tbody tr td {
+    padding-top: 16px !important;
+    padding-bottom: 16px !important;
+    vertical-align: middle;
+}
+
+/* Ép font Inter và độ đậm */
+.table h6, .table p, .table span {
+    font-family: 'Inter', sans-serif !important;
+    letter-spacing: -0.01rem !important;
+}
+
+.table thead th {
+    background-color: #f8f9fa;
+    color: #344767 !important;
+    padding-top: 12px !important;
+    padding-bottom: 12px !important;
+    border-bottom: 1px solid #e9ecef !important;
+}
+
+/* Chỉnh lại Badge cho to rõ */
+.badge-md {
+    padding: 0.55em 0.9em !important;
+    font-size: 0.75rem !important;
+    text-transform: none;
+    letter-spacing: 0;
+}
+
+/* Làm nổi bật số tiền */
+.font-weight-black {
+    font-weight: 800 !important;
+    color: #252f40 !important;
+}
+
+/* Badge trạng thái */
+.badge-sm {
+    padding: 0.5rem 0.8rem;
+    font-size: 0.7rem;
+    font-weight: 700;
+    border-radius: 0.5rem;
+}
+.text-sm {
+    font-size: 1.0rem !important; /* Văn bản phụ */
+}
+.btn.bg-gradient-dark {
+    background-image: linear-gradient(310deg, #141727, #3a416f);
+    color: #fff;
+    font-weight: 700;
+    text-transform: none; /* Bỏ in hoa toàn bộ để font rõ hơn */
+}
+
+.btn-outline-primary {
+    border: 1.5px solid #cb0c9f;
+    color: #cb0c9f;
+    font-weight: 700;
+    text-transform: none;
+}
+
+    .btn-outline-primary:hover {
+        background-color: #cb0c9f;
+        border-color: #cb0c9f;
+        color: #fff;
+    }
+
+/* Hiệu ứng mượt cho các hàng trong bảng */
+.table tbody tr {
+    transition: background-color 0.2s ease;
+}
+
+    .table tbody tr:hover {
+        background-color: #fafafa;
+    }
+
+/* Tinh chỉnh Icon PDF */
+.fa-file-pdf {
+    color: #ea0606;
+}
+/* Container cụm Search */
+.search-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+/* Wrapper cho ô Input Search */
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #d2d6da;
+    border-radius: 0.5rem;
+    padding: 0 12px;
+    transition: all 0.3s ease;
+    width: 250px;
+}
+
+    .search-input-wrapper:focus-within {
+        border-color: #cb0c9f;
+        box-shadow: 0 0 0 2px rgba(203, 12, 159, 0.2);
+        width: 300px; /* Hiệu ứng dãn ra */
+    }
+
+    .search-input-wrapper i {
+        color: #8392ab;
+        font-size: 20px;
+    }
+
+    .search-input-wrapper input {
+        border: none;
+        padding: 10px;
+        background: transparent;
+        outline: none;
+        width: 100%;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.9rem;
+        font-weight: 600; /* Chữ đậm */
+        color: #495057;
+    }
+
+/* Nút Bộ lọc */
+.btn-filter-billing {
+    text-transform: none !important;
+    font-weight: 700 !important;
+    font-size: 0.85rem !important;
+    border-color: #d2d6da !important;
+    color: #344767 !important;
+    padding: 10px 16px !important;
+}
+
+/* Tinh chỉnh các ô Select trong Form lọc */
+.form-select-sm {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem !important;
+    font-weight: 600 !important;
+    border-radius: 0.5rem !important;
+    border: 1px solid #d2d6da;
+    padding: 8px 12px !important;
+}
+
+/* Dropdown Menu (Form nội bộ) */
+.dropdown-menu {
+    border: none;
+    border-radius: 1rem !important;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1) !important;
+    animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

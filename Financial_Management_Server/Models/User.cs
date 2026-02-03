@@ -1,19 +1,14 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 
 namespace Financial_Management_Server.Models;
 
-public partial class User
+public partial class User: IdentityUser<int>
 {
-    public int UserId { get; set; }
-
     public string Fullname { get; set; } = null!;
 
-    public string Email { get; set; } = null!;
-
-    public string PasswordHash { get; set; } = null!;
-
-    public DateTime? CreatedAt { get; set; }
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public virtual ICollection<Budget> Budgets { get; set; } = new List<Budget>();
 

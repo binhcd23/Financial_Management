@@ -1,0 +1,133 @@
+﻿
+.card {
+    border: 0;
+    border-radius: 1rem !important;
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.05); /* Đổ bóng mịn đặc trưng */
+    background-color: #ffffff;
+    transition: all 0.3s ease;
+}
+
+.card-header {
+    background: transparent;
+    padding: 1.25rem 1.5rem;
+    border-bottom: none;
+}
+
+.card-body {
+    padding: 1.5rem !important;
+}
+
+.avatar-xxl {
+    width: 120px !important; /* Tăng nhẹ kích thước cho rõ */
+    height: 120px !important;
+    object-fit: cover;
+    border: 4px solid #ffffff;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15) !important;
+    transition: transform 0.3s ease;
+}
+
+    .avatar-xxl:hover {
+        transform: scale(1.05); /* Hiệu ứng phóng nhẹ khi di chuột */
+    }
+
+.border-radius-section {
+    border-radius: 1.5rem !important;
+}
+
+h5.font-weight-bolder, h5.font-weight-bold {
+    font-size: 1.25rem !important;
+    color: #344767;
+    letter-spacing: -0.025rem;
+}
+
+h6 {
+    font-size: 1rem !important;
+    font-weight: 700 !important;
+    color: #344767;
+}
+
+/* Nhãn phía trên ô nhập (Labels) */
+.form-group label, .form-control-label {
+    font-size: 0.8rem !important;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #344767;
+    text-transform: uppercase; /* Chữ in hoa nhẹ tạo sự chuyên nghiệp */
+    opacity: 0.8;
+    margin-left: 0.25rem;
+}
+
+
+.form-control {
+    display: block;
+    width: 100%;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.95rem !important; /* Chữ trong ô to hơn */
+    font-weight: 600; /* Chữ đậm cho dễ đọc */
+    color: #495057;
+    background-color: #fff;
+    border: 1px solid #d2d6da;
+    border-radius: 0.5rem !important;
+    transition: all 0.2s ease-in-out;
+}
+
+    .form-control:focus {
+        border-color: #cb0c9f; /* Màu tím hồng chủ đạo */
+        outline: 0;
+        box-shadow: 0 0 0 2px rgba(203, 12, 159, 0.2) !important;
+        background-color: #fff;
+    }
+
+    /* Trạng thái khi không cho sửa */
+    .form-control:disabled, .form-control[readonly] {
+        background-color: #f8f9fa !important;
+        border-color: #e9ecef;
+        cursor: not-allowed;
+    }
+
+/* =========================================
+   5. NÚT BẤM (BUTTONS)
+   ========================================= */
+.btn {
+    font-weight: 700;
+    font-size: 0.85rem !important;
+    padding: 0.6rem 1.5rem;
+    border-radius: 0.5rem;
+    transition: all 0.15s ease-in;
+    box-shadow: 0 4px 7px -1px rgba(0, 0, 0, 0.11), 0 2px 4px -1px rgba(0, 0, 0, 0.07);
+}
+
+    .btn:hover {
+        transform: translateY(-1px); /* Nút nhấc nhẹ lên */
+        box-shadow: 0 7px 14px rgba(50, 50, 93, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+    }
+
+    .btn:active {
+        transform: translateY(0); /* Nhấn xuống khi click */
+    }
+
+.modal-content {
+    border: none;
+    box-shadow: 0 20px 27px 0 rgba(0, 0, 0, 0.2);
+}
+
+.modal-header .btn-close {
+    padding: 1.5rem; /* Dễ bấm tắt hơn */
+}
+
+/* Hiệu ứng mượt mà khi load trang */
+.container-fluid {
+    animation: fadeIn 0.5s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

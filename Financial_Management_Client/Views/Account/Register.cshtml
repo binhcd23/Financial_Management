@@ -1,0 +1,90 @@
+﻿@model Financial_Management_Server.DTOs.RegisterRequestDto
+@{
+    ViewData["Title"] = "Đăng ký";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+<div class="card auth-card">
+    <h2 class="card-title">Đăng ký tài khoản</h2>
+    
+    <form id="registerForm" asp-action="Register" method="post" novalidate>
+        @if (!ViewData.ModelState.IsValid)
+        {
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger" style="font-size: 14px; margin-bottom: 16px; list-style: none; border: none; background: #fef2f2; color: #ef4444; padding: 10px; border-radius: 8px;"></div>
+        }
+        @Html.AntiForgeryToken()
+       
+        <div class="form-group">
+            <label asp-for="UserName">Tên đăng nhập</label>
+            <input asp-for="UserName" class="form-input" placeholder="abc_01" />
+            <span asp-validation-for="UserName" class="field-error text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="FullName">Họ và tên</label>
+            <input asp-for="FullName" class="form-input" placeholder="Nguyen Van A" />
+            <span asp-validation-for="FullName" class="field-error text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" id="userEmail" class="form-input" placeholder="email@gmail.com" type="email" />
+            <span asp-validation-for="Email" class="field-error text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="Password">Mật khẩu</label>
+            <input asp-for="Password" class="form-input" placeholder="••••••••" type="password" />
+            <span asp-validation-for="Password" class="field-error text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label asp-for="ConfirmPassword">Xác nhận mật khẩu</label>
+            <input asp-for="ConfirmPassword" class="form-input" placeholder="••••••••" type="password" />
+            <span asp-validation-for="ConfirmPassword" class="field-error text-danger"></span>
+        </div>
+
+        <button class="btn-primary" type="submit" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; margin-top: 10px;">
+            Đăng ký
+        </button>
+
+        <p style="text-align: center; margin-top: 20px; font-size: 14px; color: #64748b;">
+            Bạn đã có tài khoản? <a asp-action="Login" style="color: #10b981; text-decoration: none; font-weight: 600;">Đăng nhập</a>
+        </p>
+    </form>
+</div>
+
+@if (ViewBag.ShowSuccessModal == true)
+{
+    <div id="custom-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 9999; display: flex; align-items: center; justify-content: center;">
+        <div style="background: white; width: 90%; max-width: 450px; border-radius: 20px; padding: 30px; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.2);">
+
+            <div style="font-size: 60px; color: #10b981; margin-bottom: 20px;">
+                <span>✉️</span>
+            </div>
+
+            <h3 style="font-weight: 700; color: #1e293b; margin-bottom: 10px;">Kiểm tra Email của bạn</h3>
+
+            <p style="color: #64748b; font-size: 15px; line-height: 1.6;">
+                Chúng tôi đã gửi một liên kết xác nhận đến địa chỉ: <br>
+                <strong style="color: #1e293b;">@Model.Email</strong>
+            </p>
+
+            <hr style="margin: 25px 0; border: 0; border-top: 1px solid #eee;">
+
+            <p style="font-size: 14px; color: #64748b; margin-bottom: 15px;">Bạn không nhận được email?</p>
+
+            <form asp-action="ResendConfirmation" method="post">
+                <input type="hidden" name="email" value="@Model.Email" />
+                <button type="submit" style="color: #10b981; font-weight: 600; background: #ecfdf5; border-radius: 8px; padding: 10px 20px; border: none; cursor: pointer;">
+                    Gửi lại email xác nhận
+                </button>
+            </form>
+
+            <div style="margin-top: 25px;">
+                <a asp-action="Login" style="display: block; width: 100%; background: #64748b; color: white; text-decoration: none; border-radius: 10px; padding: 12px; font-weight: 600;">
+                    Quay lại đăng nhập
+                </a>
+            </div>
+        </div>
+    </div>
+}

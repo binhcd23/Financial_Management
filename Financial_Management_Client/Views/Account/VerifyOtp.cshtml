@@ -1,0 +1,53 @@
+﻿@{
+    ViewData["Title"] = "Xác minh OTP";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+    var email = (string)ViewBag.Email;
+}
+<link rel="stylesheet" href="~/css/verify.css" asp-append-version="true" />
+<div class="otp-container">
+    <div class="otp-card">
+        <a asp-action="Register" class="back-arrow">←</a>
+        <h2>Nhập mã xác nhận</h2>
+        <p>Mã xác thực đã được gửi qua <strong>Email</strong> đến<br /><span class="email">@email</span></p>
+
+        @if (ViewBag.Error != null)
+        {
+            <div class="error-message">
+                <p>@ViewBag.Error</p>
+            </div>
+        }
+
+        <form asp-action="VerifyOtp" method="post">
+            <input type="hidden" name="email" value="@email" />
+
+            <div class="otp-input-container">
+                <label for="otpCode">Mã OTP (6 chữ số)</label>
+                <div class="otp-boxes">
+                    <input type="text" class="otp-box" maxlength="1" name="otp1" />
+                    <input type="text" class="otp-box" maxlength="1" name="otp2" />
+                    <input type="text" class="otp-box" maxlength="1" name="otp3" />
+                    <input type="text" class="otp-box" maxlength="1" name="otp4" />
+                    <input type="text" class="otp-box" maxlength="1" name="otp5" />
+                    <input type="text" class="otp-box" maxlength="1" name="otp6" />
+                </div>
+                <input type="hidden" name="otpCode" id="otpCode" />
+            </div>
+
+            <button type="submit" class="btn-primary">Xác nhận</button>
+        </form>
+
+        <div style="margin-top: 20px; text-align: center;">
+            <div id="countdown-container" style="margin-bottom: 10px;">
+                <p style="color: #666; font-size: 14px; margin: 0;">
+                    Mã OTP sẽ hết hạn sau: <span id="countdown" style="color: #ee4d2d; font-weight: 600;">60</span> giây
+                </p>
+            </div>
+            <form method="post" asp-action="ResendOtp" style="display: none;" id="resend-form">
+                <input type="hidden" name="email" value="@email" />
+                <button type="submit" class="btn-link" id="resend-btn">Gửi lại mã</button>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/js/verifyOtp.js" asp-append-version="true"></script>
+

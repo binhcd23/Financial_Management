@@ -1,0 +1,51 @@
+﻿@model Financial_Management_Server.DTOs.LoginRequestDto
+@{
+    ViewData["Title"] = "Đăng nhập";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="login-box">
+    <div style="margin-bottom: 32px;">
+        <h2 style="font-size: 28px; font-weight: 700; color: #1e293b; margin-bottom: 8px;">Chào mừng trở lại!</h2>
+        <p style="color: #64748b;">Vui lòng nhập thông tin để truy cập ví của bạn.</p>
+    </div>
+
+    @if (ViewBag.SuccessMessage != null || TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" style="padding: 12px; background: #ecfdf5; color: #065f46; border: 1px solid #10b981; border-radius: 8px; margin-bottom: 20px; font-size: 14px; display: flex; align-items: center; gap: 8px;">
+            <span>@(ViewBag.SuccessMessage ?? TempData["SuccessMessage"])</span>
+        </div>
+    }
+
+    <form asp-action="Login" method="post">
+        <div asp-validation-summary="ModelOnly" style="color: #ef4444; font-size: 14px; margin-bottom: 16px;"></div>
+        @Html.AntiForgeryToken()
+
+        <div style="margin-bottom: 20px;">
+            <label style="display: block; font-size: 14px; font-weight: 600; color: #475569; margin-bottom: 8px;">Tên đăng nhập</label>
+            <input asp-for="UserName" style="width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 10px; outline: none; transition: border-color 0.2s;" placeholder="example@mail.com" />
+            <span asp-validation-for="UserName" style="color: #ef4444; font-size: 12px;"></span>
+        </div>
+
+        <div style="margin-bottom: 12px;">
+            <label style="display: block; font-size: 14px; font-weight: 600; color: #475569; margin-bottom: 8px;">Mật khẩu</label>
+            <input asp-for="Password" type="password" style="width: 100%; padding: 12px 16px; border: 1px solid #e2e8f0; border-radius: 10px; outline: none;" placeholder="••••••••" />
+            <span asp-validation-for="Password" style="color: #ef4444; font-size: 12px;"></span>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+            <label style="display: flex; align-items: center; gap: 8px; font-size: 14px; color: #64748b; cursor: pointer;">
+                <input asp-for="RememberMe" type="checkbox" style="width: 16px; height: 16px; accent-color: #10b981;" /> Ghi nhớ tôi
+            </label>
+            <a asp-action="ForgotPassword" style="font-size: 14px; color: #10b981; text-decoration: none; font-weight: 600;">Quên mật khẩu?</a>
+        </div>
+
+        <button type="submit" style="width: 100%; padding: 14px; background: #10b981; color: white; border: none; border-radius: 10px; font-weight: 700; cursor: pointer; transition: background 0.2s;">
+            VÀO HỆ THỐNG
+        </button>
+
+        <p style="text-align: center; margin-top: 24px; color: #64748b; font-size: 14px;">
+            Chưa có tài khoản? <a asp-action="Register" style="color: #10b981; text-decoration: none; font-weight: 600;">Đăng ký</a>
+        </p>
+    </form>
+</div>

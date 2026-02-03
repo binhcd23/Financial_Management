@@ -1,0 +1,201 @@
+﻿@* @model Financial_Management_Server.DTOs.PagedResult<Financial_Management_Server.DTOs.TransactionDto> *@
+@{
+    ViewData["Title"] = "Billing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="~/css/billing.css" rel="stylesheet" asp-append-version="true" />
+<div class="container-fluid">
+    <div class="col-12">
+        <h3 class="font-weight-bolder mb-4">Giao dịch</h3>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="row">
+                <div class="col-xl-6 mb-xl-0 mb-4">
+                    <div class="card credit-card-custom">
+                        <div class="card-body p-3">
+                            <div class="d-flex justify-content-between">
+                                <i class="fas fa-wifi text-white"></i>
+                            </div>
+                            <h5 class="text-white mt-4 mb-5 pb-2">4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
+                            <div class="d-flex justify-content-between">
+                                <div class="card-holder-info">
+                                    <p class="text-white text-xs opacity-8 mb-0">Card Holder</p>
+                                    <h6 class="text-white mb-0">Jack Peterson</h6>
+                                </div>
+                                <div class="card-expiry-info">
+                                    <p class="text-white text-xs opacity-8 mb-0">Expires</p>
+                                    <h6 class="text-white mb-0">11/22</h6>
+                                </div>
+                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" width="40" class="ms-auto">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-xl-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="card text-center stat-card">
+                                <div class="icon-shape icon-lg bg-gradient-primary shadow-primary border-radius-lg mx-auto mb-3">
+                                    <i class="fa-solid fa-building-columns text-white"></i>
+                                </div>
+                                <h6 class="mb-0">Salary</h6>
+                                <p class="text-xs text-secondary">Belong Interactive</p>
+                                <hr class="horizontal dark my-3">
+                                <h5 class="mb-0">+$2,000</h5>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="card text-center stat-card">
+                                <div class="icon-shape icon-lg bg-gradient-primary shadow-primary border-radius-lg mx-auto mb-3">
+                                    <i class="fa-solid fa-paypal text-white"></i>
+                                </div>
+                                <h6 class="mb-0">Paypal</h6>
+                                <p class="text-xs text-secondary">Freelance Payment</p>
+                                <hr class="horizontal dark my-3">
+                                <h5 class="mb-0">$455.00</h5>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card h-100">
+                <div class="card-header pb-0 p-3">
+                    <div class="row">
+                        <div class="col-8 d-flex align-items-center">
+                            <h6 class="mb-0 font-weight-bold">Ví của bạn</h6>
+                        </div>
+                        <div class="col-4 text-end">
+                            <a class="btn btn-sm bg-gradient-dark mb-0 px-2" href="javascript:;"><i class="fas fa-plus"></i> THÊM MỚI</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body p-3">
+                    <div class="row">
+                        <div class="col-12 mb-3">
+                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                <img class="w-10 me-3" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="logo">
+                                <h6 class="mb-0 text-sm">**** 7852</h6>
+                                <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer text-xs" data-bs-toggle="tooltip" title="Edit"></i>
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
+                                <img class="w-10 me-3" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="logo">
+                                <h6 class="mb-0 text-sm">**** 5248</h6>
+                                <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer text-xs"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header p-3 d-flex justify-content-between align-items-center">
+                    <h4 class="mb-0 font-weight-bold">Lịch sử giao dịch</h4>
+                    <div class="col-12 col-md-8 d-flex align-items-center justify-content-end">
+                        <div class="d-flex align-items-center gap-2">
+
+                            <div class="search-input-wrapper">
+                                <i class="material-symbols-rounded">search</i>
+                                <input type="text" id="searchInput" placeholder="Tìm hóa đơn..." value="@ViewBag.SearchKeyword" class="font-weight-bold" />
+                            </div>
+
+                            <div class="dropdown">
+                                <button class="btn btn-outline-secondary dropdown-toggle d-flex align-items-center mb-0 btn-filter-billing"
+                                        type="button"
+                                        id="filterMenuButton"
+                                        data-bs-toggle="dropdown"
+                                        data-bs-auto-close="outside"
+                                        aria-expanded="false">
+                                    <i class="material-symbols-rounded me-2">tune</i>
+                                    Bộ lọc
+                                </button>
+
+                                <form action="@Url.Action("Billing")" method="get" class="dropdown-menu p-3 shadow-lg border-radius-xl" aria-labelledby="filterMenuButton" style="min-width: 280px;">
+                                    <div class="mb-3">
+                                        <label class="form-label font-weight-bolder text-xxs text-uppercase text-secondary">Trạng thái thanh toán</label>
+                                        <select name="status" class="form-select form-select-sm font-weight-bold">
+                                            <option value="">Tất cả</option>
+                                            <option value="paid">Đã thanh toán</option>
+                                            <option value="pending">Chờ xử lý</option>
+                                            <option value="canceled">Đã hủy</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mb-3">
+                                        <label class="form-label font-weight-bolder text-xxs text-uppercase text-secondary">Thời gian</label>
+                                        <select name="timeRange" class="form-select form-select-sm font-weight-bold">
+                                            <option value="all">Tất cả thời gian</option>
+                                            <option value="today">Hôm nay</option>
+                                            <option value="week">7 ngày qua</option>
+                                            <option value="month">Tháng này</option>
+                                        </select>
+                                    </div>
+
+                                    <hr class="horizontal dark">
+
+                                    <div class="d-grid gap-2">
+                                        <button type="submit" class="btn bg-gradient-primary btn-sm mb-0 font-weight-bold">Áp dụng bộ lọc</button>
+                                        <a href="@Url.Action("Billing")" class="btn btn-link text-secondary btn-sm mb-0 font-weight-bold">Xóa tất cả</a>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body px-0 pt-0 pb-2">
+                    <div class="table-responsive p-0">
+                        <table class="table align-items-center mb-0">
+                            <thead>
+                                <tr>
+                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-4">Ngày tạo</th>
+                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-3">Mã hóa đơn</th>
+                                    <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-9">Số tiền</th>
+                                    <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-9">Trạng thái</th>
+                                    <th class="text-secondary opacity-7"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in new[] { 1, 2, 3, 4, 5 })
+                                {
+                                    <tr class="table-row-hover">
+                                        <td class="ps-4">
+                                            <h6 class="mb-0 text-sm font-weight-bold">March, 01, 2020</h6>
+                                        </td>
+                                        <td class="ps-3">
+                                            <p class="text-sm font-weight-bold mb-0 text-dark">#MS-415646</p>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="text-dark font-weight-black text-sm">$180.00</span>
+                                        </td>
+                                        <td class="align-middle text-center">
+                                            <span class="badge badge-md bg-gradient-success font-weight-bold">Đã thanh toán</span>
+                                        </td>
+                                        <td class="align-middle text-end px-4">
+                                            <button class="btn btn-link text-primary text-sm font-weight-bold mb-0">
+                                                <i class="fas fa-file-pdf text-lg me-1"></i> PDF
+                                            </button>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

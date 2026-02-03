@@ -1,0 +1,286 @@
+﻿@model Financial_Management_Server.DTOs.PagedResult<Financial_Management_Server.DTOs.Finances.GoalDto>
+@{
+    ViewData["Title"] = "Goals";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/goal.css" rel="stylesheet" asp-append-version="true" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+<div class="container-fluid">
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center mb-4 gap-3">
+        <div>
+            <h3 class="font-weight-bolder mb-0 text-dark">Mục tiêu tài chính</h3>
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+            <form asp-action="GoalsRequest" method="post" id="filterForm" class="d-flex gap-2">
+                <div class="search-input-wrapper">
+                    <i class="material-symbols-rounded">search</i>
+                    <input type="text" name="search" id="goalSearchInput" 
+                           placeholder="Tìm mục tiêu..." class="font-weight-bold" 
+                           value="@ViewBag.CurrentFilter?.search" />
+                </div>
+
+                <div class="filter-select-wrapper">
+                    <select class="form-select filter-select font-weight-bold" 
+                            name="status" id="statusFilter" onchange="document.getElementById('filterForm').submit()">
+                            <option value="">Tất cả trạng thái</option>
+                            <option value="Active" selected="@(ViewBag.CurrentFilter?.status == "Active")">Đang thực hiện</option>
+                            <option value="Completed" selected="@(ViewBag.CurrentFilter?.status == "Completed")">Đã hoàn thành</option>
+                            <option value="Cancelled" selected="@(ViewBag.CurrentFilter?.status == "Cancelled")">Đã hủy</option>
+                    </select>
+                </div>
+            </form>
+
+            <button class="btn bg-gradient-dark btn-sm mb-0 shadow-sm"
+                    data-bs-toggle="modal"
+                    data-bs-target="#modalAddGoal"
+                    style="white-space: nowrap; padding: 10px">
+                <i class="fas fa-plus me-2"></i>Thêm mới
+            </button>
+        </div>
+    </div>
+
+    <div class="row">
+        @if (Model != null && Model.Items != null && Model.Items.Any())
+        {
+            @foreach (var item in Model.Items)
+{
+    // Logic xử lý màu sắc theo trạng thái
+    var statusColor = item.Status switch
+    {
+        "Completed" => "success",
+        "Cancelled" => "secondary",
+        _ => "primary" // Mặc định cho Active
+    };
+
+    var statusIcon = item.Status switch
+    {
+        "Completed" => "fa-check-double",
+        "Cancelled" => "fa-ban",
+        _ => "fa-bullseye"
+    };
+
+    <div class="col-xl-4 col-md-6 mb-4">
+        <div class="card h-100 shadow-sm border-radius-xl @(item.Status == "Cancelled" ? "opacity-7" : "")">
+            <div class="card-body p-4">
+                <div class="d-flex mb-4">
+                    <div class="icon-shape icon-lg bg-gradient-@statusColor shadow-@statusColor border-radius-lg text-center">
+                        <i class="fa-solid @statusIcon text-white opacity-10"></i>
+                    </div>
+                    <div class="ms-3">
+                        <h4 class="font-weight-bolder mb-0">@item.GoalName</h4>
+                        <p class="text-sm text-secondary mb-0">
+                            @if (item.Status == "Completed")
+                            {
+                                <span class="badge badge-sm bg-gradient-success">Đã hoàn thành</span>
+                            }
+                            else if (item.Status == "Cancelled")
+                            {
+                                <span class="badge badge-sm bg-gradient-secondary">Đã hủy</span>
+                            }
+                            else
+                            {
+                                <span><i class="fa-regular fa-calendar-check me-1"></i> Còn @item.DaysLeft ngày</span>
+                            }
+                        </p>
+                    </div>
+                </div>
+
+                <div class="progress-wrapper">
+                    <div class="progress-info d-flex justify-content-between align-items-center mb-2">
+                        <div class="progress-label">
+                            <span class="text-sm font-weight-bold text-dark">Tiến độ hoàn thành</span>
+                        </div>
+                        <div class="progress-percentage">
+                            <span class="text-lg font-weight-bolder text-@statusColor">@item.ProgressPercentage%</span>
+                        </div>
+                    </div>
+                    <div class="progress progress-md mb-3">
+                        <div class="progress-bar bg-gradient-@statusColor" role="progressbar"
+                             style="width: @item.ProgressPercentage%"
+                             aria-valuenow="@item.ProgressPercentage" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>
+                    <h6 class="text-md font-weight-bolder text-dark mb-0">
+                        @item.CurrentAmount?.ToString("N0") <span class="text-secondary font-weight-normal">/ @item.TargetAmount.ToString("N0") VNĐ</span>
+                    </h6>
+                </div>
+
+                <hr class="horizontal dark">
+
+                <div class="mt-2">
+                    @if (item.Status == "Active")
+                    {
+                        <label class="form-label text-sm font-weight-bold">Tích lũy thêm</label>
+                        <div class="input-group input-group-sm mb-3">
+                            <input type="number"
+                                   class="form-control font-weight-bolder text-start text-lg"
+                                   id="amount-@item.GoalId"
+                                   placeholder="Nhập số tiền..."
+                                   autocomplete="off">
+                            <span class="form-control font-weight-bolder text-end">VNĐ</span>
+                            <button class="btn btn-outline-primary mb-0 d-flex align-items-center justify-content-center rounded-circle"
+                                    style="width: 40px; height: 40px; padding: 0;"
+                                    type="button"
+                                    onclick="updateGoalProgress(@item.GoalId)">
+                                <i class="fas fa-plus"></i>
+                            </button>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="text-center py-2">
+                            <span class="text-xs text-uppercase font-weight-bold text-secondary">Mục tiêu này đã kết thúc</span>
+                        </div>
+                    }
+                                @if(item.Status == "Active")
+                                {
+                                     <button class="btn btn-link text-danger text-gradient p-0 w-100 text-sm"
+                            onclick="confirmDelete(@item.GoalId)">
+                        <i class="far fa-trash-alt me-2"></i>Xóa mục tiêu
+                    </button>
+                                }
+                </div>
+            </div>
+        </div>
+    </div>
+}
+        }
+        else
+        {
+            <div class="col-12 text-center py-5">
+                <div class="mb-3">
+                    <i class="fa-solid fa-box-open fa-3x text-secondary opacity-3"></i>
+                </div>
+                <p class="text-secondary font-weight-bold">Chưa có mục tiêu nào. Hãy thêm mới để bắt đầu tiết kiệm!</p>
+            </div>
+        }
+ 
+    </div>
+</div>
+<div class="modal fade" id="modalAddGoal" tabindex="-1" role="dialog" aria-labelledby="modalAddGoalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content border-radius-xl shadow-lg border-0">
+            <div class="modal-header bg-gradient-primary border-bottom-0 py-4">
+                <div class="d-flex align-items-center">
+                    <div class="icon icon-shape bg-white shadow-sm border-radius-md text-center me-3 d-flex align-items-center justify-content-center">
+                        <i class="material-symbols-rounded text-primary fs-4">add_task</i>
+                    </div>
+                    <h5 class="modal-title font-weight-bolder text-white mb-0">Thiết lập mục tiêu mới</h5>
+                </div>
+                <button type="button" class="btn-close text-white" data-bs-dismiss="modal" aria-label="Close" style="filter: invert(1);">
+                </button>
+            </div>
+
+            <form asp-action="CreateGoal" method="post" id="createGoalForm">
+                <div class="modal-body p-4">
+                  
+                    <div class="input-group input-group-static mb-4">
+                        <label class="font-weight-bolder text-sm text-primary">
+                            <i class="material-symbols-rounded text-xs me-1">edit</i> Tên mục tiêu
+                        </label>
+                        <input name="GoalName" id="GoalName" class="form-control ps-2" placeholder="Mục tiêu của bạn là gì ?" />
+                        <span id="error-GoalName" class="text-danger text-xxs font-weight-bold mt-1"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-7">
+                            <div class="input-group input-group-static mb-4">
+                                <label class="font-weight-bolder text-sm text-primary">
+                                    <i class="material-symbols-rounded text-xs me-1">payments</i> Số tiền mục tiêu
+                                </label>
+                                <input name="TargetAmount" id="TargetAmount" type="number" class="form-control ps-2" placeholder="0 VNĐ" />
+                                <span id="error-TargetAmount" class="text-danger text-xxs font-weight-bold mt-1"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-5">
+                            <div class="input-group input-group-static mb-4">
+                                <label class="font-weight-bolder text-sm text-primary">
+                                    <i class="material-symbols-rounded text-xs me-1">event</i> Ngày kết thúc
+                                </label>
+                                <input name="TargetDate" id="TargetDate" type="date" class="form-control ps-2" id="targetDateInput" />
+                                <span id="error-TargetDate" class="text-danger text-xxs font-weight-bold mt-1"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center bg-light border-radius-lg p-3">
+                        <i class="material-symbols-rounded text-warning me-2">lightbulb</i>
+                        <p class="text-xs mb-0 text-secondary">
+                            Hãy chia nhỏ mục tiêu để dễ dàng theo dõi tiến độ hàng ngày nhé!
+                        </p>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top-0 pt-0 pb-4 pe-4">
+                    <button type="button" class="btn btn-link text-secondary font-weight-bold mb-0" data-bs-dismiss="modal">Để sau</button>
+                    <button type="button" onclick="validateAndSubmit()" class="btn bg-gradient-primary shadow-primary mb-0 px-4">
+                        <i class="material-symbols-rounded text-sm me-1">save</i> Lưu mục tiêu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@if (Model != null && Model.TotalPages > 1)
+{
+    <div class="d-flex justify-content-center align-items-center mt-4 px-3">
+        <nav aria-label="Goal pagination">
+            <ul class="pagination pagination-primary pagination-sm mb-0">
+                <li class="page-item @(Model.Page <= 1 ? "disabled" : "")">
+                    <a class="page-link" style="width: 40px; height: 40px;" href="javascript:;" onclick="changePage(@(Model.Page - 1))">
+                        <span class="material-symbols-rounded">chevron_left</span>
+                    </a>
+                </li>
+
+                @{
+                    int maxVisiblePages = 3;
+                    int startPage = Math.Max(1, Model.Page - 1);
+                    int endPage = Math.Min(Model.TotalPages, startPage + maxVisiblePages - 1);
+                    if (endPage - startPage < maxVisiblePages - 1)
+                        startPage = Math.Max(1, endPage - maxVisiblePages + 1);
+                }
+
+                @if (startPage > 1)
+                {
+                    <li class="page-item"><a class="page-link" style="width: 40px; height: 40px;" href="javascript:;" onclick="changePage(1)">1</a></li>
+                    @if (startPage > 2)
+                    {
+                        <li class="page-item disabled"><span class="page-link" style="width: 40px; height: 40px;">...</span></li>
+                    }
+                }
+
+                @for (int i = 1; i <= Model.TotalPages; i++)
+                {
+                    <li class="page-item @(i == Model.Page ? "active" : "")">
+                        <a class="page-link rounded-circle d-flex align-items-center justify-content-center border"
+                           style="width: 40px; height: 40px; @(i == Model.Page ? "background-color: #e91e63; border-color: #e91e63; color: white;" : "color: #7b809a;")"
+                           href="javascript:;" onclick="changePage(@i)">
+                            @i
+                        </a>
+                    </li>
+                }
+
+                @if (endPage < Model.TotalPages)
+                {
+                    @if (endPage < Model.TotalPages - 1)
+                    {
+                        <li class="page-item disabled"><span class="page-link" style="width: 40px; height: 40px;">...</span></li>
+                    }
+                    <li class="page-item"><a class="page-link" style="width: 40px; height: 40px" href="javascript:;" onclick="changePage(@Model.TotalPages)">@Model.TotalPages</a></li>
+                }
+
+                <li class="page-item @(Model.Page >= Model.TotalPages ? "disabled" : "")">
+                    <a class="page-link" style="width: 40px; height: 40px;" href="javascript:;" onclick="changePage(@(Model.Page + 1))">
+                        <span class="material-symbols-rounded">chevron_right</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+    </div>
+}
+<input type="hidden" id="tempSuccess" value="@TempData["SuccessMessage"]" />
+<input type="hidden" id="tempError" value="@TempData["ErrorMessage"]" />
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/goal.js" asp-append-version="true"></script>
+}
