@@ -79,5 +79,30 @@ namespace Financial_Management_Server.Controllers.Finances
                 return StatusCode(500, "Lỗi máy chủ nội bộ");
             }
         }
+        [HttpPut("remove-goal/{goalId}")]
+        public async Task<IActionResult> RemoveGoal(int goalId)
+        {
+            if (goalId <= 0)
+            {
+                return BadRequest("ID mục tiêu không hợp lệ");
+            }
+
+            try
+            {
+                var result = await _goalService.DeleteAsync(goalId);
+
+                if (result.Success)
+                {
+                    return Ok(new { message = result.Message });
+                }
+
+                return NotFound(new { message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi xóa mục tiêu ID: {GoalId}", goalId);
+                return StatusCode(500, "Lỗi máy chủ nội bộ khi xử lý xóa mục tiêu");
+            }
+        }
     }
 }

@@ -195,81 +195,6 @@ namespace Financial_Management_Server.Migrations
                     b.ToTable("savinggoals", (string)null);
                 });
 
-            modelBuilder.Entity("Financial_Management_Server.Models.Taxbracket", b =>
-                {
-                    b.Property<int>("BracketId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("bracket_id");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlIdentityColumn(b.Property<int>("BracketId"));
-
-                    b.Property<decimal?>("DeductionAmount")
-                        .ValueGeneratedOnAdd()
-                        .HasPrecision(15, 2)
-                        .HasColumnType("decimal(15,2)")
-                        .HasColumnName("deduction_amount")
-                        .HasDefaultValueSql("'0.00'");
-
-                    b.Property<decimal>("TaxRate")
-                        .HasPrecision(5, 2)
-                        .HasColumnType("decimal(5,2)")
-                        .HasColumnName("tax_rate");
-
-                    b.Property<decimal>("ThresholdFrom")
-                        .HasPrecision(15, 2)
-                        .HasColumnType("decimal(15,2)")
-                        .HasColumnName("threshold_from");
-
-                    b.Property<decimal?>("ThresholdTo")
-                        .HasPrecision(15, 2)
-                        .HasColumnType("decimal(15,2)")
-                        .HasColumnName("threshold_to");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime?>("UpdatedAt"));
-
-                    b.HasKey("BracketId")
-                        .HasName("PRIMARY");
-
-                    b.ToTable("taxbrackets", (string)null);
-                });
-
-            modelBuilder.Entity("Financial_Management_Server.Models.Taxconstant", b =>
-                {
-                    b.Property<string>("ConstantKey")
-                        .HasMaxLength(50)
-                        .HasColumnType("varchar(50)")
-                        .HasColumnName("constant_key");
-
-                    b.Property<decimal>("ConstantValue")
-                        .HasPrecision(15, 2)
-                        .HasColumnType("decimal(15,2)")
-                        .HasColumnName("constant_value");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("text")
-                        .HasColumnName("description");
-
-                    b.Property<DateTime?>("UpdatedAt")
-                        .ValueGeneratedOnAddOrUpdate()
-                        .HasColumnType("timestamp")
-                        .HasColumnName("updated_at")
-                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
-
-                    MySqlPropertyBuilderExtensions.UseMySqlComputedColumn(b.Property<DateTime?>("UpdatedAt"));
-
-                    b.HasKey("ConstantKey")
-                        .HasName("PRIMARY");
-
-                    b.ToTable("taxconstants", (string)null);
-                });
-
             modelBuilder.Entity("Financial_Management_Server.Models.Transaction", b =>
                 {
                     b.Property<int>("TransactionId")
@@ -297,6 +222,12 @@ namespace Financial_Management_Server.Migrations
                     b.Property<int?>("GoalId")
                         .HasColumnType("int")
                         .HasColumnName("goal_id");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_delete");
 
                     b.Property<string>("Note")
                         .HasColumnType("text")
@@ -411,18 +342,6 @@ namespace Financial_Management_Server.Migrations
                         .HasColumnType("int")
                         .HasColumnName("user_id");
 
-                    b.Property<int?>("DependentCount")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasColumnName("dependent_count")
-                        .HasDefaultValueSql("'0'");
-
-                    b.Property<bool?>("IsResident")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("tinyint(1)")
-                        .HasColumnName("is_resident")
-                        .HasDefaultValueSql("'1'");
-
                     b.Property<decimal?>("SavingRate")
                         .ValueGeneratedOnAdd()
                         .HasPrecision(5, 2)
@@ -449,8 +368,32 @@ namespace Financial_Management_Server.Migrations
                         .ValueGeneratedOnAdd()
                         .HasPrecision(15, 2)
                         .HasColumnType("decimal(15,2)")
-                        .HasColumnName("balance")
-                        .HasDefaultValueSql("'0.00'");
+                        .HasDefaultValue(0.00m)
+                        .HasColumnName("balance");
+
+                    b.Property<int?>("BankId")
+                        .HasColumnType("int")
+                        .HasColumnName("bank_id");
+
+                    b.Property<string>("CardHolderName")
+                        .HasMaxLength(100)
+                        .HasColumnType("varchar(100)")
+                        .HasColumnName("card_holder_name");
+
+                    b.Property<string>("CardNumber")
+                        .HasMaxLength(20)
+                        .HasColumnType("varchar(20)")
+                        .HasColumnName("card_number");
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("tinyint(1)")
+                        .HasColumnName("is_default");
+
+                    b.Property<bool>("IsDelete")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("tinyint(1)")
+                        .HasDefaultValue(false)
+                        .HasColumnName("is_delete");
 
                     b.Property<int?>("UserId")
                         .HasColumnType("int")

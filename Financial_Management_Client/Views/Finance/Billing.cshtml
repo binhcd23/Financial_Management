@@ -1,11 +1,13 @@
-﻿@* @model Financial_Management_Server.DTOs.PagedResult<Financial_Management_Server.DTOs.TransactionDto> *@
+﻿@model Financial_Management_Server.DTOs.Finances.BillingDto
+@using System.Text.RegularExpressions
 @{
     ViewData["Title"] = "Billing";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" />
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <link href="~/css/billing.css" rel="stylesheet" asp-append-version="true" />
 <div class="container-fluid">
     <div class="col-12">
@@ -21,17 +23,28 @@
                             <div class="d-flex justify-content-between">
                                 <i class="fas fa-wifi text-white"></i>
                             </div>
-                            <h5 class="text-white mt-4 mb-5 pb-2">4562&nbsp;&nbsp;&nbsp;1122&nbsp;&nbsp;&nbsp;4594&nbsp;&nbsp;&nbsp;7852</h5>
+                            <h5 class="text-white mt-4 mb-5 pb-2">
+                                @if (!string.IsNullOrEmpty(Model.WalletDefault?.CardNumber))
+                                {
+                                    @Html.Raw(Regex.Replace(Model.WalletDefault.CardNumber, ".{4}", "$0&nbsp;&nbsp;&nbsp;"))
+                                }
+                                else
+                                {
+                                    <span>****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****&nbsp;&nbsp;&nbsp;****</span>
+                                }
+                            </h5>
                             <div class="d-flex justify-content-between">
                                 <div class="card-holder-info">
                                     <p class="text-white text-xs opacity-8 mb-0">Card Holder</p>
-                                    <h6 class="text-white mb-0">Jack Peterson</h6>
+                                    <h6 class="text-white mb-0">@(Model.WalletDefault?.CardHolderName?.ToUpper() ?? "N/A")</h6>
                                 </div>
                                 <div class="card-expiry-info">
-                                    <p class="text-white text-xs opacity-8 mb-0">Expires</p>
-                                    <h6 class="text-white mb-0">11/22</h6>
+                                    <p class="text-white text-xs opacity-8 mb-0">@Model.WalletDefault?.WalletType</p>
                                 </div>
-                                <img src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" width="40" class="ms-auto">
+                                @if (!string.IsNullOrEmpty(Model.WalletDefault?.BankLogo))
+                                {
+                                    <img src="@Model.WalletDefault.BankLogo" width="45" class="ms-auto" style="filter: brightness(0) invert(1);">
+                                }
                             </div>
                         </div>
                     </div>
@@ -39,28 +52,37 @@
 
                 <div class="col-xl-6">
                     <div class="row">
-                        <div class="col-md-6">
-                            <div class="card text-center stat-card">
-                                <div class="icon-shape icon-lg bg-gradient-primary shadow-primary border-radius-lg mx-auto mb-3">
-                                    <i class="fa-solid fa-building-columns text-white"></i>
+                        @foreach (var item in Model.WalletSummaries)
+                        {
+                            string iconClass = "fa-wallet";
+                            string bgGradient = "bg-gradient-primary";
+                            string displayName = "Ví của tôi";
+
+                            if (item.WalletType == "Savings")
+                            {
+                                iconClass = "fa-piggy-bank";
+                                bgGradient = "bg-gradient-success";
+                                displayName = "Tiết kiệm";
+                            }
+                            else if (item.WalletType == "Spendable")
+                            {
+                                iconClass = "fa-cart-shopping";
+                                bgGradient = "bg-gradient-info";
+                                displayName = "Chi tiêu";
+                            }
+
+                            <div class="col-md-6">
+                                <div class="card text-center stat-card mb-4">
+                                    <div class="icon-shape icon-lg @bgGradient shadow-primary border-radius-lg mx-auto mb-3">
+                                        <i class="fa-solid @iconClass text-white"></i>
+                                    </div>
+                                    <h6 class="mb-0">@displayName</h6>
+                                    <p class="text-xs text-secondary">@item.WalletCount ví</p>
+                                    <hr class="horizontal dark my-3">
+                                    <h5 class="mb-0">@item.TotalBalance?.ToString("N0") <small>VNĐ</small></h5>
                                 </div>
-                                <h6 class="mb-0">Salary</h6>
-                                <p class="text-xs text-secondary">Belong Interactive</p>
-                                <hr class="horizontal dark my-3">
-                                <h5 class="mb-0">+$2,000</h5>
                             </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="card text-center stat-card">
-                                <div class="icon-shape icon-lg bg-gradient-primary shadow-primary border-radius-lg mx-auto mb-3">
-                                    <i class="fa-solid fa-paypal text-white"></i>
-                                </div>
-                                <h6 class="mb-0">Paypal</h6>
-                                <p class="text-xs text-secondary">Freelance Payment</p>
-                                <hr class="horizontal dark my-3">
-                                <h5 class="mb-0">$455.00</h5>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -74,26 +96,50 @@
                             <h6 class="mb-0 font-weight-bold">Ví của bạn</h6>
                         </div>
                         <div class="col-4 text-end">
-                            <a class="btn btn-sm bg-gradient-dark mb-0 px-2" href="javascript:;"><i class="fas fa-plus"></i> THÊM MỚI</a>
+                            <a class="btn btn-sm bg-gradient-dark mb-0 px-2"
+                               href="javascript:;"
+                               data-bs-toggle="modal"
+                               data-bs-target="#modalAddWallet">
+                                <i class="fas fa-plus"></i> THÊM MỚI
+                            </a>
                         </div>
                     </div>
                 </div>
-                <div class="card-body p-3">
-                    <div class="row">
-                        <div class="col-12 mb-3">
-                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                <img class="w-10 me-3" src="https://upload.wikimedia.org/wikipedia/commons/2/2a/Mastercard-logo.svg" alt="logo">
-                                <h6 class="mb-0 text-sm">**** 7852</h6>
-                                <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer text-xs" data-bs-toggle="tooltip" title="Edit"></i>
+                <div class="card-body p-3" style="max-height: 180px; overflow-y: auto; overflow-x: hidden;">
+                    <div class="row mx-0">
+                        @foreach (var item in Model.Wallets)
+                        {
+                            <div class="col-12 mb-3">
+                                <div class="card card-body border @(item.IsDefault ? "border-primary" : "card-plain") border-radius-lg d-flex align-items-center flex-row shadow-sm-hover"
+                                     style="cursor: pointer; position: relative; transition: all 0.3s;"
+                                     onclick="SetDefaultWallet(@item.WalletId)">
+
+                                    @if (item.IsDefault)
+                                    {
+                                        <span class="badge badge-sm bg-gradient-success" style="position: absolute; top: -10px; right: 10px;">Đang dùng</span>
+                                    }
+
+                                    <img class="me-3" src="@item.BankLogo" alt="logo" style="width: 80px; height: auto;">
+
+                                    <div class="d-flex flex-column">
+                                        <h6 class="mb-0 text-sm font-weight-bold">@item.WalletName</h6>
+                                        <span class="text-xs">
+                                            @(string.IsNullOrEmpty(item.CardNumber)
+                                                ? "Tiền mặt"
+                                                : "**** **** **** " + item.CardNumber.Substring(Math.Max(0, item.CardNumber.Length - 4)))
+                                        </span>
+                                    </div>
+
+                                    <button type="button"
+                                            class="btn btn-link ms-auto mb-0 p-2"
+                                            onclick="event.stopPropagation(); DeleteWallet(@item.WalletId)">
+                                        <i class="fas fa-trash text-danger text-sm"
+                                           data-bs-toggle="tooltip"
+                                           title="Xóa ví"></i>
+                                    </button>
+                                </div>
                             </div>
-                        </div>
-                        <div class="col-12">
-                            <div class="card card-body border card-plain border-radius-lg d-flex align-items-center flex-row">
-                                <img class="w-10 me-3" src="https://upload.wikimedia.org/wikipedia/commons/5/5e/Visa_Inc._logo.svg" alt="logo">
-                                <h6 class="mb-0 text-sm">**** 5248</h6>
-                                <i class="fas fa-pencil-alt ms-auto text-dark cursor-pointer text-xs"></i>
-                            </div>
-                        </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -106,11 +152,18 @@
                 <div class="card-header p-3 d-flex justify-content-between align-items-center">
                     <h4 class="mb-0 font-weight-bold">Lịch sử giao dịch</h4>
                     <div class="col-12 col-md-8 d-flex align-items-center justify-content-end">
-                        <div class="d-flex align-items-center gap-2">
+                    <div class="d-flex align-items-center gap-2">
+
+                        <form asp-action="BillingRequest" method="post" id="filterForm" class="d-flex align-items-center gap-2">
 
                             <div class="search-input-wrapper">
                                 <i class="material-symbols-rounded">search</i>
-                                <input type="text" id="searchInput" placeholder="Tìm hóa đơn..." value="@ViewBag.SearchKeyword" class="font-weight-bold" />
+                                <input type="text"
+                                       name="search"
+                                       id="searchInput"
+                                       placeholder="Tìm hóa đơn..."
+                                       value="@ViewBag.CurrentFilter?.search"
+                                       class="font-weight-bold" />
                             </div>
 
                             <div class="dropdown">
@@ -124,24 +177,31 @@
                                     Bộ lọc
                                 </button>
 
-                                <form action="@Url.Action("Billing")" method="get" class="dropdown-menu p-3 shadow-lg border-radius-xl" aria-labelledby="filterMenuButton" style="min-width: 280px;">
+                                <div class="dropdown-menu p-3 shadow-lg border-radius-xl" aria-labelledby="filterMenuButton" style="min-width: 280px;">
                                     <div class="mb-3">
-                                        <label class="form-label font-weight-bolder text-xxs text-uppercase text-secondary">Trạng thái thanh toán</label>
-                                        <select name="status" class="form-select form-select-sm font-weight-bold">
+                                        <label class="form-label font-weight-bolder text-xxs text-uppercase text-secondary">Danh mục</label>
+                                        <select name="categoryId" class="form-select form-select-sm font-weight-bold">
                                             <option value="">Tất cả</option>
-                                            <option value="paid">Đã thanh toán</option>
-                                            <option value="pending">Chờ xử lý</option>
-                                            <option value="canceled">Đã hủy</option>
+                                            @foreach (var item in Model.Categories)
+                                            {
+                                                <option value="@item.CategoryId"
+                                                        selected="@(ViewBag.CurrentFilter?.categoryId == item.CategoryId ? "selected" : null)">
+                                                    @item.CategoryName
+                                                </option>
+                                            }
                                         </select>
                                     </div>
 
                                     <div class="mb-3">
                                         <label class="form-label font-weight-bolder text-xxs text-uppercase text-secondary">Thời gian</label>
                                         <select name="timeRange" class="form-select form-select-sm font-weight-bold">
-                                            <option value="all">Tất cả thời gian</option>
-                                            <option value="today">Hôm nay</option>
-                                            <option value="week">7 ngày qua</option>
-                                            <option value="month">Tháng này</option>
+                                            @{
+                                                var currentRange = ViewBag.CurrentFilter?.timeRange;
+                                            }
+                                            <option value="all" selected="@(currentRange == "all" ? "selected" : null)">Tất cả thời gian</option>
+                                            <option value="today" selected="@(currentRange == "today" ? "selected" : null)">Hôm nay</option>
+                                            <option value="week" selected="@(currentRange == "week" ? "selected" : null)">7 ngày qua</option>
+                                            <option value="month" selected="@(currentRange == "month" ? "selected" : null)">Tháng này</option>
                                         </select>
                                     </div>
 
@@ -151,43 +211,65 @@
                                         <button type="submit" class="btn bg-gradient-primary btn-sm mb-0 font-weight-bold">Áp dụng bộ lọc</button>
                                         <a href="@Url.Action("Billing")" class="btn btn-link text-secondary btn-sm mb-0 font-weight-bold">Xóa tất cả</a>
                                     </div>
-                                </form>
+                                </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
+                </div>
                 </div>
                 <div class="card-body px-0 pt-0 pb-2">
                     <div class="table-responsive p-0">
                         <table class="table align-items-center mb-0">
                             <thead>
                                 <tr>
-                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-4">Ngày tạo</th>
-                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-3">Mã hóa đơn</th>
-                                    <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-9">Số tiền</th>
-                                    <th class="text-center text-uppercase text-dark text-sm font-weight-bolder opacity-9">Trạng thái</th>
+                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-4">Mã hóa đơn</th>
+                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-3">Danh mục</th>
+                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-3">Mô tả</th>
+                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-3">Số tiền</th>
+                                    <th class="text-uppercase text-dark text-sm font-weight-bolder opacity-9 ps-3">Thời gian</th>
                                     <th class="text-secondary opacity-7"></th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (var item in new[] { 1, 2, 3, 4, 5 })
+                                @if (Model.Transactions.Items != null && Model.Transactions.Items.Any())
                                 {
-                                    <tr class="table-row-hover">
-                                        <td class="ps-4">
-                                            <h6 class="mb-0 text-sm font-weight-bold">March, 01, 2020</h6>
-                                        </td>
-                                        <td class="ps-3">
-                                            <p class="text-sm font-weight-bold mb-0 text-dark">#MS-415646</p>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="text-dark font-weight-black text-sm">$180.00</span>
-                                        </td>
-                                        <td class="align-middle text-center">
-                                            <span class="badge badge-md bg-gradient-success font-weight-bold">Đã thanh toán</span>
-                                        </td>
-                                        <td class="align-middle text-end px-4">
-                                            <button class="btn btn-link text-primary text-sm font-weight-bold mb-0">
-                                                <i class="fas fa-file-pdf text-lg me-1"></i> PDF
-                                            </button>
+                                    @foreach (var item in Model.Transactions.Items)
+                                    {
+                                        <tr class="table-row-hover">
+                                            <td class="ps-4">
+                                                <p class="text-sm font-weight-bold mb-0 text-dark">#TR-@item.TransactionId</p>
+                                            </td>
+                                            <td class="ps-3">
+                                                <span class="badge badge-sm bg-gradient-secondary">@item.CategoryName</span>
+                                            </td>
+                                            <td class="ps-3">
+                                                <p class="text-sm mb-0">@(string.IsNullOrEmpty(item.Note) ? "Không có mô tả" : item.Note)</p>
+                                            </td>
+                                            <td class="ps-3">
+                                                <span class="text-sm font-weight-bold @(item.Amount < 0 ? "text-danger" : "text-success")">
+                                                    @item.Amount.ToString("N0") VNĐ
+                                                </span>
+                                            </td>
+                                            <td class="ps-3">
+                                                <span class="text-secondary text-sm font-weight-bold">
+                                                    @item.TransactionDate.ToString("dd/MM/yyyy")
+                                                </span>
+                                            </td>
+                                            <td class="align-middle text-center px-4">
+                                                <button type="button"
+                                                        class="btn btn-link text-danger text-sm font-weight-bold mb-0 p-0"
+                                                        onclick="DeleteTransaction(@item.TransactionId)">
+                                                    <i class="fas fa-trash text-lg me-1"></i>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td colspan="6" class="text-center py-4">
+                                            <p class="text-sm">Không có dữ liệu giao dịch nào.</p>
                                         </td>
                                     </tr>
                                 }
@@ -198,4 +280,151 @@
             </div>
         </div>
     </div>
+    @if (Model.Transactions != null && Model.Transactions.TotalPages > 0)
+    {
+        <div class="d-flex justify-content-end align-items-center mt-4 px-3">
+            <nav aria-label="Goal pagination">
+                <ul class="pagination pagination-primary pagination-sm mb-0">
+                    <li class="page-item @(Model.Transactions.Page <= 1 ? "disabled" : "")">
+                        <a class="page-link" style="width: 40px; height: 40px;" href="javascript:;" onclick="changePage(@(Model.Transactions.Page - 1))">
+                            <span class="material-symbols-rounded">chevron_left</span>
+                        </a>
+                    </li>
+
+                    @{
+                        int maxVisiblePages = 3;
+                        int startPage = Math.Max(1, Model.Transactions.Page - 1);
+                        int endPage = Math.Min(Model.Transactions.TotalPages, startPage + maxVisiblePages - 1);
+                        if (endPage - startPage < maxVisiblePages - 1)
+                            startPage = Math.Max(1, endPage - maxVisiblePages + 1);
+                    }
+
+                    @if (startPage > 1)
+                    {
+                        <li class="page-item"><a class="page-link" style="width: 40px; height: 40px;" href="javascript:;" onclick="changePage(1)">1</a></li>
+                        @if (startPage > 2)
+                        {
+                            <li class="page-item disabled"><span class="page-link" style="width: 40px; height: 40px;">...</span></li>
+                        }
+                    }
+
+                    @for (int i = 1; i <= Model.Transactions.TotalPages; i++)
+                    {
+                        <li class="page-item @(i == Model.Transactions.Page ? "active" : "")">
+                            <a class="page-link rounded-circle d-flex align-items-center justify-content-center border"
+                               style="width: 40px; height: 40px; @(i == Model.Transactions.Page ? "background-color: #e91e63; border-color: #e91e63; color: white;" : "color: #7b809a;")"
+                               href="javascript:;" onclick="changePage(@i)">
+                                @i
+                            </a>
+                        </li>
+                    }
+
+                    @if (endPage < Model.Transactions.TotalPages)
+                    {
+                        @if (endPage < Model.Transactions.TotalPages - 1)
+                        {
+                            <li class="page-item disabled"><span class="page-link" style="width: 40px; height: 40px;">...</span></li>
+                        }
+                        <li class="page-item"><a class="page-link" style="width: 40px; height: 40px" href="javascript:;" onclick="changePage(@Model.Transactions.TotalPages)">@Model.Transactions.TotalPages</a></li>
+                    }
+
+                    <li class="page-item @(Model.Transactions.Page >= Model.Transactions.TotalPages ? "disabled" : "")">
+                        <a class="page-link" style="width: 40px; height: 40px;" href="javascript:;" onclick="changePage(@(Model.Transactions.Page + 1))">
+                            <span class="material-symbols-rounded">chevron_right</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    }
 </div>
+<div class="modal fade" id="modalAddWallet" tabindex="-1" role="dialog" aria-labelledby="modalAddWalletLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered shadow-lg" role="document">
+        <div class="modal-content border-radius-xl">
+            <div class="modal-header border-bottom-0 pb-0">
+                <div class="d-flex align-items-center">
+                    <div class="icon icon-shape bg-gradient-primary shadow-primary text-center border-radius-md me-3">
+                        <i class="fas fa-wallet opacity-10"></i>
+                    </div>
+                    <h5 class="modal-title font-weight-bolder" id="modalAddWalletLabel">Thêm Ví Mới</h5>
+                </div>
+                <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <form asp-controller="Wallet" asp-action="CreateWallet" method="post" onsubmit="event.preventDefault(); validateAndSubmit();">
+                <div class="modal-body pt-4">
+                    <div class="row g-3">
+                     
+                        <div class="col-md-12">
+                            <label class="form-label text-xs font-weight-bold text-uppercase">Tên ví</label>
+                            <div class="input-group input-group-outline">
+                                <input type="text" name="WalletName" class="form-control" placeholder="Ví dụ: Techcombank Cá Nhân" required>
+                            </div>
+                            <span id="error-WalletName" class="text-danger text-xxs font-weight-bold"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label text-xs font-weight-bold text-uppercase">Ngân hàng liên kết</label>
+                            <div class="input-group input-group-outline is-filled">
+                                <select name="BankId" id="bankSelect" class="form-control">
+                                    <option value="">-- Chọn ngân hàng --</option>
+                                    @foreach (var bank in Model.Banks)
+                                    {
+                                        <option value="@bank.Id" data-logo="@bank.Logo">@bank.ShortName</option>
+                                    }
+                                </select>
+                            </div>
+                            <span id="error-Bank" class="text-danger text-xxs font-weight-bold"></span>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label text-xs font-weight-bold text-uppercase">Loại ví</label>
+                            <div class="input-group input-group-outline is-filled">
+                                <select name="WalletType" class="form-control">
+                                    <option value="Spendable">Chi tiêu (Spendable)</option>
+                                    <option value="Savings">Tiết kiệm (Savings)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label class="form-label text-xs font-weight-bold text-uppercase">Số thẻ</label>
+                            <div class="input-group input-group-outline">
+                                <input type="text" name="CardNumber" class="form-control">
+                            </div>
+                            <span id="error-CardNumber" class="text-danger text-xxs font-weight-bold"></span>
+                        </div>
+
+                        <div class="col-md-12">
+                            <label class="form-label text-xs font-weight-bold text-uppercase">Tên chủ thẻ</label>
+                            <div class="input-group input-group-outline">
+                                <input type="text" name="CardHolderName" class="form-control">
+                            </div>
+                            <span id="error-CardHolderName" class="text-danger text-xxs font-weight-bold"></span>
+                        </div>
+
+                        <div class="col-md-12 mt-3">
+                            <div class="form-check form-switch d-flex align-items-center mb-0">
+                                <input class="form-check-input" type="checkbox" name="IsDefault" value="true" id="isDefaultCheck">
+                                <label class="form-check-label mb-0 ms-3 text-sm" for="isDefaultCheck">Đặt làm ví mặc định</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-footer border-top-0 pt-0">
+                    <button type="button" class="btn btn-link text-secondary mb-0" data-bs-dismiss="modal">Đóng</button>
+                    <button type="button" onclick="validateAndSubmit()" class="btn bg-gradient-primary mb-0">Lưu ví ngay</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="tempSuccess" value="@TempData["SuccessMessage"]" />
+<input type="hidden" id="tempError" value="@TempData["ErrorMessage"]" />
+@section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="~/js/billing.js" asp-append-version="true"></script>
+}

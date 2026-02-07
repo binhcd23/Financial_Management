@@ -30,7 +30,6 @@
         });
     }
 
-    // 2. Tự động mở Modal nếu có lỗi Validation (giữ nguyên vì cần người dùng sửa lỗi)
     if ($('.field-validation-error').length > 0 || $('.validation-summary-errors').length > 0) {
         const modalElem = document.getElementById('modalAddGoal');
         if (modalElem) {
@@ -38,18 +37,24 @@
             myModal.show();
         }
     }
-
-    // 3. Chặn ngày quá khứ
-    const dateInput = document.getElementById('targetDateInput');
+    const dateInput = document.getElementById('TargetDate');
     if (dateInput) {
-        dateInput.setAttribute('min', new Date().toISOString().split('T')[0]);
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        const year = tomorrow.getFullYear();
+        const month = String(tomorrow.getMonth() + 1).padStart(2, '0');
+        const day = String(tomorrow.getDate()).padStart(2, '0');
+
+        const minDate = `${year}-${month}-${day}`;
+        dateInput.setAttribute('min', minDate);
     }
 });
 function validateAndSubmit() {
     // 1. Lấy giá trị
     const name = $('#GoalName').val().trim();
     const amount = $('#TargetAmount').val();
-    const date = $('#TargetDate').val();
+    const dateValue = $('#TargetDate').val();
     let isValid = true;
 
     // 2. Reset lỗi cũ
@@ -71,9 +76,21 @@ function validateAndSubmit() {
     }
 
     // 5. Kiểm tra Ngày
-    if (!date) {
+    if (!dateValue) {
         $('#error-TargetDate').text('Vui lòng chọn ngày kết thúc');
         isValid = false;
+    } else {
+        const selectedDate = new Date(dateValue);
+        selectedDate.setHours(0, 0, 0, 0);
+
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        tomorrow.setHours(0, 0, 0, 0);
+
+        if (selectedDate < tomorrow) {
+            $('#error-TargetDate').text('Ngày kết thúc phải từ ngày mai trở đi');
+            isValid = false;
+        }
     }
 
     // 6. Nếu tất cả OK thì mới Submit form
@@ -112,7 +129,6 @@ async function updateGoalProgress(goalId) {
     const amount = input ? input.value : 0;
 
     if (!amount || amount <= 0) {
-        // Thông báo nhanh khi nhập sai số tiền bằng Toast
         Swal.fire({
             toast: true,
             position: 'top-end',
@@ -124,15 +140,19 @@ async function updateGoalProgress(goalId) {
         return;
     }
 
-    const formData = new FormData();
-    formData.append('goalId', goalId);
-    formData.append('addedValue', amount);
+    const params = new URLSearchParams();
+    params.append('goalId', goalId);
+    params.append('addedValue', amount);
 
     try {
-        const response = await fetch('/Goal/UpdateProgress', {
+        const response = await fetch('/Finance/UpdateProgress', {
             method: 'POST',
-            body: formData
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: params
         });
+
         if (response.ok) {
             window.location.reload();
         } else {
@@ -144,7 +164,6 @@ async function updateGoalProgress(goalId) {
 }
 
 function confirmDelete(goalId) {
-    // Riêng lệnh Xóa nên dùng Popup to để tránh người dùng bấm nhầm
     Swal.fire({
         title: 'Xác nhận xóa?',
         text: "Dữ liệu mục tiêu này sẽ không thể khôi phục!",
@@ -157,7 +176,7 @@ function confirmDelete(goalId) {
         customClass: { popup: 'border-radius-xl' }
     }).then((result) => {
         if (result.isConfirmed) {
-            window.location.href = `/Goal/DeleteGoal?id=${goalId}`;
+            window.location.href = `/Finance/DeleteGoal?id=${goalId}`;
         }
     });
 }

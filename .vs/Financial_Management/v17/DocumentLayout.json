@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "D:\\Personal_Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\views\\finance\\goals.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\views\\finance\\goals.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\wwwroot\\js\\goal.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\wwwroot\\js\\goal.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{210F830D-B556-4C25-8D98-4BB6D24A37CA}|Financial_Management_Server\\Financial_Management_Server.csproj|d:\\personal_project\\financial_management_server\\services\\finances\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{210F830D-B556-4C25-8D98-4BB6D24A37CA}|Financial_Management_Server\\Financial_Management_Server.csproj|solutionrelative:financial_management_server\\services\\finances\\dashboardservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\controllers\\financecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\controllers\\financecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\views\\account\\myprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\views\\account\\myprofile.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\views\\finance\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\views\\finance\\dashboard.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{210F830D-B556-4C25-8D98-4BB6D24A37CA}|Financial_Management_Server\\Financial_Management_Server.csproj|d:\\personal_project\\financial_management_server\\controllers\\finances\\goalscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{210F830D-B556-4C25-8D98-4BB6D24A37CA}|Financial_Management_Server\\Financial_Management_Server.csproj|solutionrelative:financial_management_server\\controllers\\finances\\goalscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{210F830D-B556-4C25-8D98-4BB6D24A37CA}|Financial_Management_Server\\Financial_Management_Server.csproj|d:\\personal_project\\financial_management_server\\services\\finances\\goalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{210F830D-B556-4C25-8D98-4BB6D24A37CA}|Financial_Management_Server\\Financial_Management_Server.csproj|solutionrelative:financial_management_server\\services\\finances\\goalservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{210F830D-B556-4C25-8D98-4BB6D24A37CA}|Financial_Management_Server\\Financial_Management_Server.csproj|d:\\personal_project\\financial_management_server\\repositories\\finances\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{210F830D-B556-4C25-8D98-4BB6D24A37CA}|Financial_Management_Server\\Financial_Management_Server.csproj|solutionrelative:financial_management_server\\repositories\\finances\\transactionrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -34,7 +26,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 3,
           "Children": [
             {
               "$type": "Bookmark",
@@ -46,77 +38,55 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "goal.js",
-              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\wwwroot\\js\\goal.js",
-              "RelativeDocumentMoniker": "Financial_Management_Client\\wwwroot\\js\\goal.js",
-              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\wwwroot\\js\\goal.js",
-              "RelativeToolTip": "Financial_Management_Client\\wwwroot\\js\\goal.js",
-              "ViewState": "AgIAACMAAAAAAAAAAAAAACkAAAAbAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-02-03T15:56:59.092Z",
+              "DocumentIndex": 3,
+              "Title": "TransactionRepository.cs",
+              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Server\\Repositories\\Finances\\TransactionRepository.cs",
+              "RelativeDocumentMoniker": "Financial_Management_Server\\Repositories\\Finances\\TransactionRepository.cs",
+              "ToolTip": "D:\\Personal_Project\\Financial_Management_Server\\Repositories\\Finances\\TransactionRepository.cs",
+              "RelativeToolTip": "Financial_Management_Server\\Repositories\\Finances\\TransactionRepository.cs",
+              "ViewState": "AgIAABcAAAAAAAAAAAAgwCAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-07T09:05:26.997Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "MyProfile.cshtml",
-              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Account\\MyProfile.cshtml",
-              "RelativeDocumentMoniker": "Financial_Management_Client\\Views\\Account\\MyProfile.cshtml",
-              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Account\\MyProfile.cshtml",
-              "RelativeToolTip": "Financial_Management_Client\\Views\\Account\\MyProfile.cshtml",
-              "ViewState": "AgIAAGkAAAAAAAAAAAAAAHYAAAANAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T15:44:54.273Z"
+              "DocumentIndex": 0,
+              "Title": "DashboardService.cs",
+              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Server\\Services\\Finances\\DashboardService.cs",
+              "RelativeDocumentMoniker": "Financial_Management_Server\\Services\\Finances\\DashboardService.cs",
+              "ToolTip": "D:\\Personal_Project\\Financial_Management_Server\\Services\\Finances\\DashboardService.cs",
+              "RelativeToolTip": "Financial_Management_Server\\Services\\Finances\\DashboardService.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAA+wDAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-02-07T09:02:54.857Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "Dashboard.cshtml",
+              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Finance\\Dashboard.cshtml",
+              "RelativeDocumentMoniker": "Financial_Management_Client\\Views\\Finance\\Dashboard.cshtml",
+              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Finance\\Dashboard.cshtml",
+              "RelativeToolTip": "Financial_Management_Client\\Views\\Finance\\Dashboard.cshtml",
+              "ViewState": "AgIAAGMAAAAAAAAAAAAAwHIAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-07T08:03:57.252Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "FinanceController.cs",
               "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\Controllers\\FinanceController.cs",
               "RelativeDocumentMoniker": "Financial_Management_Client\\Controllers\\FinanceController.cs",
               "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\Controllers\\FinanceController.cs",
               "RelativeToolTip": "Financial_Management_Client\\Controllers\\FinanceController.cs",
-              "ViewState": "AgIAAD8AAAAAAAAAAAAcwFIAAAANAAAAAAAAAA==",
+              "ViewState": "AgIAAAoAAAAAAAAAAAAzwEUAAAASAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T15:23:50.316Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Goals.cshtml",
-              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Finance\\Goals.cshtml",
-              "RelativeDocumentMoniker": "Financial_Management_Client\\Views\\Finance\\Goals.cshtml",
-              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Finance\\Goals.cshtml",
-              "RelativeToolTip": "Financial_Management_Client\\Views\\Finance\\Goals.cshtml",
-              "ViewState": "AgIAAOYAAAAAAAAAAAAjwPAAAAARAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2026-02-03T14:29:11.194Z",
+              "WhenOpened": "2026-02-07T04:25:36.693Z",
               "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
-              "Title": "GoalService.cs",
-              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Server\\Services\\Finances\\GoalService.cs",
-              "RelativeDocumentMoniker": "Financial_Management_Server\\Services\\Finances\\GoalService.cs",
-              "ToolTip": "D:\\Personal_Project\\Financial_Management_Server\\Services\\Finances\\GoalService.cs",
-              "RelativeToolTip": "Financial_Management_Server\\Services\\Finances\\GoalService.cs",
-              "ViewState": "AgIAABUAAAAAAAAAAAAYwCkAAAAJAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T14:22:44.498Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GoalsController.cs",
-              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Server\\Controllers\\Finances\\GoalsController.cs",
-              "RelativeDocumentMoniker": "Financial_Management_Server\\Controllers\\Finances\\GoalsController.cs",
-              "ToolTip": "D:\\Personal_Project\\Financial_Management_Server\\Controllers\\Finances\\GoalsController.cs",
-              "RelativeToolTip": "Financial_Management_Server\\Controllers\\Finances\\GoalsController.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAwwBQAAABVAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-03T09:50:14.054Z"
             }
           ]
         }

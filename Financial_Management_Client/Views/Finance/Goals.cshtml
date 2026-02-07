@@ -26,7 +26,6 @@
                             <option value="">Tất cả trạng thái</option>
                             <option value="Active" selected="@(ViewBag.CurrentFilter?.status == "Active")">Đang thực hiện</option>
                             <option value="Completed" selected="@(ViewBag.CurrentFilter?.status == "Completed")">Đã hoàn thành</option>
-                            <option value="Cancelled" selected="@(ViewBag.CurrentFilter?.status == "Cancelled")">Đã hủy</option>
                     </select>
                 </div>
             </form>
@@ -49,14 +48,12 @@
     var statusColor = item.Status switch
     {
         "Completed" => "success",
-        "Cancelled" => "secondary",
         _ => "primary" // Mặc định cho Active
     };
 
     var statusIcon = item.Status switch
     {
         "Completed" => "fa-check-double",
-        "Cancelled" => "fa-ban",
         _ => "fa-bullseye"
     };
 
@@ -73,10 +70,6 @@
                             @if (item.Status == "Completed")
                             {
                                 <span class="badge badge-sm bg-gradient-success">Đã hoàn thành</span>
-                            }
-                            else if (item.Status == "Cancelled")
-                            {
-                                <span class="badge badge-sm bg-gradient-secondary">Đã hủy</span>
                             }
                             else
                             {
@@ -115,6 +108,7 @@
                             <input type="number"
                                    class="form-control font-weight-bolder text-start text-lg"
                                    id="amount-@item.GoalId"
+                                   min="0"
                                    placeholder="Nhập số tiền..."
                                    autocomplete="off">
                             <span class="form-control font-weight-bolder text-end">VNĐ</span>
@@ -132,13 +126,12 @@
                             <span class="text-xs text-uppercase font-weight-bold text-secondary">Mục tiêu này đã kết thúc</span>
                         </div>
                     }
-                                @if(item.Status == "Active")
-                                {
+                           
                                      <button class="btn btn-link text-danger text-gradient p-0 w-100 text-sm"
                             onclick="confirmDelete(@item.GoalId)">
                         <i class="far fa-trash-alt me-2"></i>Xóa mục tiêu
                     </button>
-                                }
+                                
                 </div>
             </div>
         </div>
@@ -197,7 +190,7 @@
                                 <label class="font-weight-bolder text-sm text-primary">
                                     <i class="material-symbols-rounded text-xs me-1">event</i> Ngày kết thúc
                                 </label>
-                                <input name="TargetDate" id="TargetDate" type="date" class="form-control ps-2" id="targetDateInput" />
+                                <input name="TargetDate" id="TargetDate" type="date" class="form-control ps-2" />
                                 <span id="error-TargetDate" class="text-danger text-xxs font-weight-bold mt-1"></span>
                             </div>
                         </div>
@@ -221,7 +214,7 @@
         </div>
     </div>
 </div>
-@if (Model != null && Model.TotalPages > 1)
+@if (Model != null && Model.TotalPages > 0)
 {
     <div class="d-flex justify-content-center align-items-center mt-4 px-3">
         <nav aria-label="Goal pagination">

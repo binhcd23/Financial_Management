@@ -9,5 +9,6 @@ namespace Financial_Management_Server.Interfaces.Finances
         Task<PagedResult<GoalDto>> GetGoalsAsync(GoalRequestDto dto);
         Task<GoalResponses> AddAsync(GoalDto dto);
         Task<GoalResponses> UpdateAsync(RequestedValue request);
+        Task<GoalResponses> DeleteAsync(int goalId);
     }
 }

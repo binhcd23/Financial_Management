@@ -21,10 +21,29 @@ namespace Financial_Management_Server.Repositories.Finances
             return await _context.SaveChangesAsync() > 0;
         }
 
+        public async Task<bool> DeleteAsync(int goalId)
+        {
+            var goal = await _context.Savinggoals
+                 .FirstOrDefaultAsync(n => n.GoalId == goalId);
+
+            if (goal == null) return false;
+
+            goal.Status = "Cancelled";
+            _context.Savinggoals.Update(goal);
+            return await _context.SaveChangesAsync() > 0;
+        }
+
+        public async Task<List<Savinggoal>> GetGoalsAsync(int userId)
+        {
+            return await _context.Savinggoals
+                .Where(n => n.UserId == userId)
+                .ToListAsync();
+        }
+
         public async Task<(List<Savinggoal> Items, int TotalCount)> GetGoalsByUserIdAsync(GoalRequestDto dto)
         {
             var query = _context.Savinggoals
-               .Where(sg => sg.UserId == dto.userId)
+               .Where(sg => sg.UserId == dto.userId && sg.Status != "Cancelled")
                .OrderByDescending(sg => sg.StartDate)
                .AsNoTracking()
                .AsQueryable();
@@ -53,11 +72,15 @@ namespace Financial_Management_Server.Repositories.Finances
         public async Task<bool> UpdateAsync(RequestedValue request)
         {
             var goal = await _context.Savinggoals
-                  .FirstOrDefaultAsync(n => n.GoalId == request.goalId);
+                  .FirstOrDefaultAsync(n => n.GoalId == request.goalId && n.Status == "Active");
 
             if (goal == null || request.addedValue == 0) return false;
 
             goal.CurrentAmount += request.addedValue;
+            if (goal.CurrentAmount >= goal.TargetAmount)
+            {
+                goal.Status = "Completed";
+            }
             _context.Savinggoals.Update(goal);
             return await _context.SaveChangesAsync() > 0;
         }

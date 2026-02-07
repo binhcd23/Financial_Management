@@ -15,6 +15,16 @@ public partial class Wallet
 
     public string? WalletType { get; set; }
 
+    public string? CardNumber { get; set; }
+
+    public string? CardHolderName { get; set; }
+
+    public int? BankId { get; set; }
+
+    public bool IsDefault { get; set; }
+
+    public bool IsDelete { get; set; }
+
     public virtual ICollection<Transaction> Transactions { get; set; } = new List<Transaction>();
 
     public virtual User? User { get; set; }

@@ -26,10 +26,6 @@ public partial class PersonalFinanceDbContext : IdentityDbContext<User, Identity
 
     public virtual DbSet<Savinggoal> Savinggoals { get; set; }
 
-    public virtual DbSet<Taxbracket> Taxbrackets { get; set; }
-
-    public virtual DbSet<Taxconstant> Taxconstants { get; set; }
-
     public virtual DbSet<Transaction> Transactions { get; set; }
 
     public virtual DbSet<Usertaxprofile> Usertaxprofiles { get; set; }
@@ -154,55 +150,6 @@ public partial class PersonalFinanceDbContext : IdentityDbContext<User, Identity
                 .HasConstraintName("savinggoals_ibfk_1");
         });
 
-        modelBuilder.Entity<Taxbracket>(entity =>
-        {
-            entity.HasKey(e => e.BracketId).HasName("PRIMARY");
-
-            entity.ToTable("taxbrackets");
-
-            entity.Property(e => e.BracketId).HasColumnName("bracket_id");
-            entity.Property(e => e.DeductionAmount)
-                .HasPrecision(15, 2)
-                .HasDefaultValueSql("'0.00'")
-                .HasColumnName("deduction_amount");
-            entity.Property(e => e.TaxRate)
-                .HasPrecision(5, 2)
-                .HasColumnName("tax_rate");
-            entity.Property(e => e.ThresholdFrom)
-                .HasPrecision(15, 2)
-                .HasColumnName("threshold_from");
-            entity.Property(e => e.ThresholdTo)
-                .HasPrecision(15, 2)
-                .HasColumnName("threshold_to");
-            entity.Property(e => e.UpdatedAt)
-                .ValueGeneratedOnAddOrUpdate()
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp")
-                .HasColumnName("updated_at");
-        });
-
-        modelBuilder.Entity<Taxconstant>(entity =>
-        {
-            entity.HasKey(e => e.ConstantKey).HasName("PRIMARY");
-
-            entity.ToTable("taxconstants");
-
-            entity.Property(e => e.ConstantKey)
-                .HasMaxLength(50)
-                .HasColumnName("constant_key");
-            entity.Property(e => e.ConstantValue)
-                .HasPrecision(15, 2)
-                .HasColumnName("constant_value");
-            entity.Property(e => e.Description)
-                .HasColumnType("text")
-                .HasColumnName("description");
-            entity.Property(e => e.UpdatedAt)
-                .ValueGeneratedOnAddOrUpdate()
-                .HasDefaultValueSql("CURRENT_TIMESTAMP")
-                .HasColumnType("timestamp")
-                .HasColumnName("updated_at");
-        });
-
         modelBuilder.Entity<Transaction>(entity =>
         {
             entity.HasKey(e => e.TransactionId).HasName("PRIMARY");
@@ -233,6 +180,12 @@ public partial class PersonalFinanceDbContext : IdentityDbContext<User, Identity
             entity.Property(e => e.TransactionDate).HasColumnName("transaction_date");
             entity.Property(e => e.UserId).HasColumnName("user_id");
             entity.Property(e => e.WalletId).HasColumnName("wallet_id");
+
+            entity.Property(e => e.IsDelete)
+              .HasDefaultValue(false)
+              .HasColumnName("is_delete");
+
+            entity.HasQueryFilter(w => !w.IsDelete);
 
             entity.HasOne(d => d.Category).WithMany(p => p.Transactions)
                 .HasForeignKey(d => d.CategoryId)
@@ -266,12 +219,6 @@ public partial class PersonalFinanceDbContext : IdentityDbContext<User, Identity
             entity.Property(e => e.UserId)
                 .ValueGeneratedNever()
                 .HasColumnName("user_id");
-            entity.Property(e => e.DependentCount)
-                .HasDefaultValueSql("'0'")
-                .HasColumnName("dependent_count");
-            entity.Property(e => e.IsResident)
-                .HasDefaultValueSql("'1'")
-                .HasColumnName("is_resident");
             entity.Property(e => e.SavingRate)
                 .HasPrecision(5, 2)
                 .HasDefaultValueSql("'10.00'")
@@ -285,24 +232,48 @@ public partial class PersonalFinanceDbContext : IdentityDbContext<User, Identity
         modelBuilder.Entity<Wallet>(entity =>
         {
             entity.HasKey(e => e.WalletId).HasName("PRIMARY");
-
             entity.ToTable("wallets");
 
             entity.HasIndex(e => e.UserId, "user_id");
 
             entity.Property(e => e.WalletId).HasColumnName("wallet_id");
+
             entity.Property(e => e.Balance)
                 .HasPrecision(15, 2)
-                .HasDefaultValueSql("'0.00'")
+                .HasDefaultValue(0.00m)
                 .HasColumnName("balance");
+
             entity.Property(e => e.UserId).HasColumnName("user_id");
+
             entity.Property(e => e.WalletName)
                 .HasMaxLength(50)
+                .IsRequired()
                 .HasColumnName("wallet_name");
+
             entity.Property(e => e.WalletType)
-                .HasDefaultValueSql("'Spendable'")
                 .HasColumnType("enum('Spendable','Savings')")
+                .HasDefaultValueSql("'Spendable'")
                 .HasColumnName("wallet_type");
+
+            entity.Property(e => e.CardNumber)
+                .HasMaxLength(20)
+                .HasColumnName("card_number");
+
+            entity.Property(e => e.CardHolderName)
+                .HasMaxLength(100)
+                .HasColumnName("card_holder_name");
+
+            entity.Property(e => e.BankId)
+                .HasColumnName("bank_id");
+
+            entity.Property(e => e.IsDefault)
+                .HasColumnName("is_default");
+
+            entity.Property(e => e.IsDelete)
+                .HasDefaultValue(false)
+                .HasColumnName("is_delete");
+
+            entity.HasQueryFilter(w => !w.IsDelete);
 
             entity.HasOne(d => d.User).WithMany(p => p.Wallets)
                 .HasForeignKey(d => d.UserId)

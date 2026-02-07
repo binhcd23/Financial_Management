@@ -27,6 +27,16 @@ namespace Financial_Management_Server.Services.Finances
             };
         }
 
+        public async Task<GoalResponses> DeleteAsync(int goalId)
+        {
+            var result = await _goalRepository.DeleteAsync(goalId);
+            return new GoalResponses
+            {
+                Success = result,
+                Message = result ? "Xóa mục tiêu thành công" : "Không tìm thấy mục tiêu để xóa"
+            };
+        }
+
         public async Task<PagedResult<GoalDto>> GetGoalsAsync(GoalRequestDto dto)
         {
             var (items, total) = await _goalRepository.GetGoalsByUserIdAsync(dto);

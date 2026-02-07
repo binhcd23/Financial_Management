@@ -23,6 +23,8 @@ public partial class Transaction
 
     public int? GoalId { get; set; }
 
+    public bool IsDelete { get; set; }
+
     public virtual Category? Category { get; set; }
 
     public virtual Savinggoal? Goal { get; set; }

@@ -31,6 +31,8 @@ namespace Financial_Management_Server.DTOs.Finances
         public string TimeLeftText => DaysLeft.HasValue ? $"{DaysLeft} ngày" : "Vô thời hạn";
 
         public string? Status { get; set; }
+        public int GoalsCount { get; set; }
+        public double Percentage { get; set; }
 
         public GoalDto() { }
         public GoalDto(Savinggoal goal)
