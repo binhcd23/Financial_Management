@@ -12,6 +12,30 @@ namespace Financial_Management_Client.Controllers
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient("default");
         }
+        [HttpGet]
+        public async Task<IActionResult> GetSavingWallets()
+        {
+            var userIdStr = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdStr)) return RedirectToAction("Login", "Account");
+
+            int userId = int.Parse(userIdStr);
+            try
+            {
+                var resp = await _httpClient.GetAsync($"api/Wallets/saving/{userId}");
+                if (resp.IsSuccessStatusCode)
+                {
+                    var data = await resp.Content.ReadAsStringAsync();
+                    return Content(data, "application/json");
+                }
+                return StatusCode((int)resp.StatusCode);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi lấy danh sách");
+                return StatusCode(500);
+            }
+
+        }
         [HttpPost]
         public async Task<IActionResult> CreateWallet(WalletDto dto)
         {

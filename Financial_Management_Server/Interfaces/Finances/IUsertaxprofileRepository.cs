@@ -2,10 +2,10 @@
 
 namespace Financial_Management_Server.Interfaces.Finances
 {
-    public interface ITaxRepository
+    public interface IUsertaxprofileRepository
     {
-        Task<Usertaxprofile?> GetTaxProfileByUserIdAsync(int userId);
-        Task<bool> UpdateAsync(Usertaxprofile usertaxprofile);
+        Task<Usertaxprofile?> GetUsertaxprofileByUserId(int userId);
         Task<bool> AddAsync(Usertaxprofile usertaxprofile);
+        Task<bool> UpdateAsync(Usertaxprofile usertaxprofile);
     }
 }

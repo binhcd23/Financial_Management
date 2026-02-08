@@ -4,6 +4,7 @@ using Financial_Management_Server.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Financial_Management_Server.Migrations
 {
     [DbContext(typeof(PersonalFinanceDbContext))]
-    partial class PersonalFinanceDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260207135334_UpdateUsertaxprofileWithWallet")]
+    partial class UpdateUsertaxprofileWithWallet
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

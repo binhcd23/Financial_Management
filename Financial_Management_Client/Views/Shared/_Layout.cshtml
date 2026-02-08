@@ -91,11 +91,17 @@
     <main class="main-content position-relative max-height-vh-100 h-100 border-radius-lg">
         <nav class="navbar navbar-main navbar-expand-lg px-0 mx-4 shadow-none border-radius-xl" id="navbarBlur" navbar-scroll="true">
             <div class="container-fluid py-1 px-3 d-flex justify-content-end" style="margin-top: 20px;">
-                <ul class="navbar-nav justify-content-end">
-                    <li class="nav-item dropdown pe-2 d-flex align-items-center">
+                <ul class="navbar-nav d-flex flex-row justify-content-end">
+                    <li class="nav-item" style="margin-left: 0px !important; margin: 0px !important">
+                        <a href="javascript:;" class="nav-link text-body p-0" onclick="openConfigModal()">
+                            <i class="fa fa-cog cursor-pointer" style="font-size: 1.2rem;" title="Thiết lập"></i>
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown d-flex align-items-center" style="margin-left: 0px !important; margin: 0px !important">
                         <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
                             <div class="position-relative">
-                                <i class="fa fa-bell cursor-pointer" style="font-size: 1.5rem;"></i>
+                                <i class="fa fa-bell cursor-pointer" style="font-size: 1.2rem;"></i>
                                 @if (unreadCount > 0)
                                 {
                                     <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="padding: 3px; border: 2px solid #fff;">
@@ -104,6 +110,7 @@
                                 }
                             </div>
                         </a>
+
                         <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" style="max-height: 350px; overflow-y: auto;" aria-labelledby="dropdownMenuButton">
                             @if (notifications != null && notifications.Any())
                             {
@@ -153,13 +160,35 @@
                 </div>
             </div>
         </div>
+        <div class="modal fade" id="mainConfigModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                   <div class="modal-header">
+                        <button type="button" class="btn btn-sm btn-icon-only mb-0" id="btnBackConfig" style="display:none" onclick="renderMainMenu()">
+                            <i class="fa fa-arrow-left"></i>
+                        </button>
+                        <h4 class="modal-title ms-2" id="configModalTitle">Cài đặt hệ thống</h4>
+                        <button type="button" class="btn-close text-dark" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body" id="configModalBody">
+                    </div>
+
+                    <div class="modal-footer" id="configModalFooter">
+                        <button type="button" class="btn bg-gradient-secondary mb-0" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="container-fluid">
             @RenderBody()
         </div>
     </main>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="~/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/notif.js" asp-append-version="true"></script>
+    <script src="~/js/config.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

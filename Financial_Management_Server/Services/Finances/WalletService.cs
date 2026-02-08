@@ -118,5 +118,26 @@ namespace Financial_Management_Server.Services.Finances
 
             return summaries;
         }
+
+        public async Task<List<WalletDto>> GetSavingWalletsAsync(int userId)
+        {
+            var wallets = await _walletRepository.GetWalletsByUserIdAsync(userId);
+            var banks = await _bankService.GetVietQRBanksAsync();
+
+            var walletDtos = wallets.Where(w => w.WalletType == "Savings").Select(w => {
+                var dto = new WalletDto(w);
+
+                var bankInfo = banks.FirstOrDefault(b => b.Id == w.BankId);
+
+                if (bankInfo != null)
+                {
+                    dto.BankLogo = bankInfo.Logo;
+                    dto.BankName = bankInfo.ShortName;
+                }
+                return dto;
+            }).ToList();
+
+            return walletDtos;
+        }
     }
 }

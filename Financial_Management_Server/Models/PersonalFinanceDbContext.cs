@@ -219,6 +219,7 @@ public partial class PersonalFinanceDbContext : IdentityDbContext<User, Identity
             entity.Property(e => e.UserId)
                 .ValueGeneratedNever()
                 .HasColumnName("user_id");
+            entity.Property(e => e.WalletId).HasColumnName("wallet_id");
             entity.Property(e => e.SavingRate)
                 .HasPrecision(5, 2)
                 .HasDefaultValueSql("'10.00'")
@@ -227,6 +228,10 @@ public partial class PersonalFinanceDbContext : IdentityDbContext<User, Identity
             entity.HasOne(d => d.User).WithOne(p => p.Usertaxprofile)
                 .HasForeignKey<Usertaxprofile>(d => d.UserId)
                 .HasConstraintName("usertaxprofile_ibfk_1");
+
+            entity.HasOne(d => d.Wallet).WithOne(p => p.Usertaxprofile)
+                 .HasForeignKey<Usertaxprofile>(d => d.WalletId)
+                 .HasConstraintName("usertaxprofile_ibfk_2");
         });
 
         modelBuilder.Entity<Wallet>(entity =>

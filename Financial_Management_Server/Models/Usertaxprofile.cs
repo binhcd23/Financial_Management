@@ -6,8 +6,8 @@ namespace Financial_Management_Server.Models;
 public partial class Usertaxprofile
 {
     public int UserId { get; set; }
-
+    public int? WalletId { get; set; }
     public decimal? SavingRate { get; set; }
-
     public virtual User User { get; set; } = null!;
+    public virtual Wallet? Wallet { get; set; }
 }

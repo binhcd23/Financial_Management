@@ -19,8 +19,10 @@ namespace Financial_Management_Server.Repositories.Finances
             return await _context.SaveChangesAsync() >0;
         }
 
-        public async Task<bool> DeleteAsync(Budget budget)
+        public async Task<bool> DeleteAsync(int budgetId)
         {
+            var budget = await _context.Budgets.FindAsync(budgetId);
+            if (budget == null) return false;
             _context.Budgets.Remove(budget);
             return await _context.SaveChangesAsync() > 0;
         }
@@ -28,15 +30,17 @@ namespace Financial_Management_Server.Repositories.Finances
         public async Task<Budget?> GetBudgetByUserIdAndCategoryId(int userId, int categoryId)
         {
             return await _context.Budgets
+                .Include(b => b.Category)
                 .AsNoTracking()
                 .FirstOrDefaultAsync(b => b.UserId == userId && b.CategoryId == categoryId);
-                
         }
 
         public async Task<List<Budget>> GetBudgetsByUserId(int userId)
         {
             return await _context.Budgets
                 .Where(b => b.UserId == userId)
+                .Include(b => b.Category)
+                .OrderByDescending(b => b.BudgetId)
                 .AsNoTracking()
                 .ToListAsync();
         }

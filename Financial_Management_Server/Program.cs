@@ -79,6 +79,8 @@ builder.Services.AddScoped<ITransactionService, TransactionService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddScoped<IWalletService, WalletService>();
 builder.Services.AddScoped<IDashboardService, DashboardService>();
+builder.Services.AddScoped<IUsertaxprofileService, UsertaxprofileService>();
+builder.Services.AddScoped<IBudgetService, BudgetService>();
 builder.Services.AddHttpClient<IBankService, BankService>();
 
 builder.Services.AddScoped<IAuthRepository, AuthRepository>();
@@ -87,7 +89,8 @@ builder.Services.AddScoped<IGoalRepository, GoalRepository>();
 builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
 builder.Services.AddScoped<IWalletRepository, WalletRepository>();
 builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ITaxRepository, TaxRepository>();
+builder.Services.AddScoped<IUsertaxprofileRepository, UsertaxprofileRepository>();
+builder.Services.AddScoped<IBudgetRepository, BudgetRepository>();
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowLocalhost", policy =>

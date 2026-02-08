@@ -8,6 +8,6 @@ namespace Financial_Management_Server.Interfaces.Finances
         Task<List<Budget>> GetBudgetsByUserId(int userId);
         Task<bool> UpdateAsync(Budget budget);
         Task<bool> AddAsync(Budget budget);
-        Task<bool> DeleteAsync(Budget budget);
+        Task<bool> DeleteAsync(int budgetId);
     }
 }

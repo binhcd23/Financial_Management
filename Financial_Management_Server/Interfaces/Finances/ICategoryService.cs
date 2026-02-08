@@ -6,5 +6,6 @@ namespace Financial_Management_Server.Interfaces.Finances
     public interface ICategoryService
     {
         Task<List<CategoriesDto>> GetCategoriesAsync();
+        Task<List<CategoriesDto>> GetCategoriesWithoutBudgetAsync(int userId);
     }
 }

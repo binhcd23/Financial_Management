@@ -10,15 +10,13 @@ namespace Financial_Management_Server.Services.Finances
         private readonly ITransactionRepository _transactionRepository;
         private readonly IGoalRepository _goalRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly ITaxRepository _taxRepository;
 
-        public DashboardService(IWalletRepository walletRepository, ITransactionRepository transactionRepository, IGoalRepository goalRepository, ICategoryRepository categoryRepository, ITaxRepository taxRepository)
+        public DashboardService(IWalletRepository walletRepository, ITransactionRepository transactionRepository, IGoalRepository goalRepository, ICategoryRepository categoryRepository)
         {
             _walletRepository = walletRepository;
             _transactionRepository = transactionRepository;
             _goalRepository = goalRepository;
             _categoryRepository = categoryRepository;
-            _taxRepository = taxRepository;
         }
 
         public async Task<DashboardStatsDto> GetDashboardAsync(DashboardRequest request)
@@ -33,8 +31,7 @@ namespace Financial_Management_Server.Services.Finances
             var transactions = await _transactionRepository.GetTransactionsAsync(request.userId);
             var catrgorirs = await _categoryRepository.GetCategoriesAsync();
             var goals = await _goalRepository.GetGoalsAsync(request.userId);
-            var taxProfile = await _taxRepository.GetTaxProfileByUserIdAsync(request.userId);
-
+          
             // giao dịch tháng này
             var monthlyTransactions = transactions
                 .Where(t => t.TransactionDate.Month == now.Month &&
