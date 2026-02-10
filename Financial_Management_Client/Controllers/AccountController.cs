@@ -281,22 +281,7 @@ namespace Financial_Management_Client.Controllers
                         HttpContext.Session.SetString("JWToken", loginResult.Token);
                         HttpContext.Session.SetString("FullName", loginResult.FullName);
                         HttpContext.Session.SetString("UserId", loginResult.UserId.ToString());
-                        if (loginResult.UserId > 0)
-                        {
-                            try
-                            {
-                                var notifResponse = await _httpClient.GetAsync($"api/Notification/user/{loginResult.UserId}");
-                                if (notifResponse.IsSuccessStatusCode)
-                                {
-                                    var notificationsJson = await notifResponse.Content.ReadAsStringAsync();
-                                    HttpContext.Session.SetString("UserNotifications", notificationsJson);
-                                }
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogWarning(ex, "Không thể lấy thông báo lúc đăng nhập.");
-                            }
-                        }
+                      
                         return RedirectToAction("Dashboard", "Finance");
                     }
                     ModelState.AddModelError("", loginResult?.Message ?? "Thông tin đăng nhập không đúng.");

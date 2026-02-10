@@ -1,5 +1,6 @@
 ﻿
 using Financial_Management_Server.Models;
+using System.ComponentModel.DataAnnotations;
 
 namespace Financial_Management_Server.DTOs.Finances
 {
@@ -11,15 +12,22 @@ namespace Financial_Management_Server.DTOs.Finances
 
         public int? CategoryId { get; set; }
 
-        public string? CategoryName { get; set; }    
+        [Required(ErrorMessage = "Vui lòng chọn danh mục")]
+        public string? CategoryName { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng nhập số tiền")]
+        [Range(1000, double.MaxValue, ErrorMessage = "Số tiền phải từ 1,000đ trở lên")]
         public decimal Amount { get; set; }
 
+        [Required(ErrorMessage = "Vui lòng nhập nôi dung")]
+        [MaxLength(200, ErrorMessage = "Ghi chú không quá 200 ký tự")]
         public string? Note { get; set; }
 
         public DateOnly TransactionDate { get; set; }
 
         public DateTime? CreatedAt { get; set; }
+
+        public int? WalletId { get; set; }
 
         public bool IsDelete { get; set; }
 
@@ -34,6 +42,7 @@ namespace Financial_Management_Server.DTOs.Finances
             Note = transaction.Note;
             TransactionDate = transaction.TransactionDate;
             CreatedAt = transaction.CreatedAt;
+            WalletId = transaction.WalletId;
             IsDelete = transaction.IsDelete;
         }
         public Transaction ToTransaction()
@@ -46,6 +55,7 @@ namespace Financial_Management_Server.DTOs.Finances
                 Note = Note,
                 TransactionDate = TransactionDate == default ? DateOnly.FromDateTime(DateTime.Now) : TransactionDate,
                 CreatedAt = DateTime.Now,
+                WalletId = WalletId,
                 IsDelete = false,
             };
         }
@@ -148,6 +158,7 @@ namespace Financial_Management_Server.DTOs.Finances
         public List<WalletDto> Wallets { get; set; } = new List<WalletDto>();
         public List<WalletSummaryDto> WalletSummaries { get; set; } = new List<WalletSummaryDto> { };
         public WalletDto? WalletDefault { get; set; }
+        public WalletDto? WalletDetail { get; set; }
         public PagedResult<TransactionDto> Transactions { get; set; } = new PagedResult<TransactionDto>();
         public List<CategoriesDto> Categories { get; set; } = new List<CategoriesDto>();
         public List<BankListDto> Banks { get; set; } = new List<BankListDto>();

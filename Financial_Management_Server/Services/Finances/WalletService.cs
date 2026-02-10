@@ -1,4 +1,5 @@
-﻿using Financial_Management_Server.DTOs.Finances;
+﻿using Financial_Management_Server.DTOs;
+using Financial_Management_Server.DTOs.Finances;
 using Financial_Management_Server.Interfaces.Finances;
 using Financial_Management_Server.Models;
 
@@ -7,11 +8,13 @@ namespace Financial_Management_Server.Services.Finances
     public class WalletService : IWalletService
     {
         private readonly IWalletRepository _walletRepository;
+        private readonly ITransactionRepository _transactionRepository;
         private readonly IBankService _bankService;
 
-        public WalletService(IWalletRepository walletRepository, IBankService bankService)
+        public WalletService(IWalletRepository walletRepository, ITransactionRepository transactionRepository, IBankService bankService)
         {
             _walletRepository = walletRepository;
+            _transactionRepository = transactionRepository;
             _bankService = bankService;
         }
 
@@ -138,6 +141,35 @@ namespace Financial_Management_Server.Services.Finances
             }).ToList();
 
             return walletDtos;
+        }
+        public async Task<TransferResponses> TransferAsync(TransferRequest request)
+        {
+            try
+            {
+                var sentWallet = await _walletRepository.GetWalletByIdAsync(request.sentWalletId);
+                var receivedWallet = await _walletRepository.GetWalletByIdAsync(request.receivedWalletId);
+
+                if (sentWallet == null || receivedWallet == null)
+                    return new TransferResponses { Success = false, Message = "Không tìm thấy ví" };
+
+                if (sentWallet.Balance < request.amount)
+                    return new TransferResponses { Success = false, Message = "Số dư không đủ để thực hiện giao dịch" };
+
+                if (request.amount < 1000)
+                    return new TransferResponses { Success = false, Message = "Số tiền giao dịch từ 1000đ" };
+
+                sentWallet.Balance -= request.amount;
+                receivedWallet.Balance += request.amount;
+
+                await _walletRepository.UpdateWalletAsync(sentWallet);
+                await _walletRepository.UpdateWalletAsync(receivedWallet);
+
+                return new TransferResponses { Success = true, Message = "Chuyển thành công!" };
+            }
+            catch (Exception)
+            {
+                return new TransferResponses { Success = false, Message = "Lỗi hệ thống khi xử lý giao dịch" };
+            }
         }
     }
 }

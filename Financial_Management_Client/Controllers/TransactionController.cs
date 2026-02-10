@@ -26,11 +26,13 @@ namespace Financial_Management_Client.Controllers
 
                 if (resp.IsSuccessStatusCode)
                 {
+                    TempData["SuccessMessage"] = "Thêm thành công.";
                     return RedirectToAction("Billing", "Finance");
                 }
                 else
                 {
                     var errorResult = await resp.Content.ReadAsStringAsync();
+                    TempData["ErrorMessage"] = "Không thể tạo giao dịch này. Vui lòng thử lại.";
                     ModelState.AddModelError(string.Empty, "Server từ chối: " + errorResult);
                 }
             }

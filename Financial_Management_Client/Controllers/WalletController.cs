@@ -1,4 +1,5 @@
-﻿using Financial_Management_Server.DTOs.Finances;
+﻿using Financial_Management_Server.DTOs;
+using Financial_Management_Server.DTOs.Finances;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Financial_Management_Client.Controllers
@@ -119,6 +120,30 @@ namespace Financial_Management_Client.Controllers
                 TempData["ErrorMessage"] = "Lỗi kết nối đến máy chủ.";
             }
             return RedirectToAction("Billing", "Finance");
+        }
+        [HttpPost]
+        public async Task<IActionResult> TransferMoney([FromForm] TransferRequest request)
+        {
+            try
+            {
+                var response = await _httpClient.PostAsJsonAsync("api/Wallets/transfer", request);
+                var result = await response.Content.ReadFromJsonAsync<TransferResponses>();
+
+                if (response.IsSuccessStatusCode && result != null && result.Success)
+                {
+                    TempData["SuccessMessage"] = "Chuyển thành công!";
+                    return RedirectToAction("Billing", "Finance");
+                }
+
+                TempData["ErrorMessage"] = result?.Message ?? "Giao dịch thất bại";
+                return RedirectToAction("Billing", "Finance");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi kết nối API khi chuyển tiền");
+                TempData["ErrorMessage"] = "Không thể kết nối đến máy chủ thanh toán";
+                return RedirectToAction("Billing", "Finance");
+            }
         }
     }
 }

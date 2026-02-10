@@ -1,6 +1,9 @@
-﻿using Financial_Management_Server.DTOs.Finances;
+﻿using Financial_Management_Server.DTOs;
+using Financial_Management_Server.DTOs.Finances;
 using Financial_Management_Server.Interfaces.Finances;
+using Financial_Management_Server.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace Financial_Management_Server.Controllers.Finances
 {
@@ -83,6 +86,27 @@ namespace Financial_Management_Server.Controllers.Finances
             {
                 _logger.LogError(ex, "Lỗi khi xóa ví: {WalletId}", walletId);
                 return StatusCode(500, "Lỗi hệ thống");
+            }
+        }
+
+
+        [HttpPost("transfer")]
+        public async Task<IActionResult> TransferMoney([FromBody] TransferRequest request)
+        {
+            try
+            {
+                var result = await _walletService.TransferAsync(request);
+
+                if (result.Success)
+                {
+                    return Ok(new { success = true, message = result.Message });
+                }
+                return BadRequest(new { success = false, message = result.Message });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi thực hiện chuyển tiền QR cho User");
+                return StatusCode(500, new { message = "Lỗi hệ thống trong quá trình xử lý giao dịch." });
             }
         }
     }

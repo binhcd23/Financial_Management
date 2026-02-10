@@ -4,12 +4,6 @@
     var currentAction = ViewContext.RouteData.Values["action"]?.ToString()?.ToLower();
     var currentController = ViewContext.RouteData.Values["controller"]?.ToString()?.ToLower();
     var fullName = Context.Session.GetString("FullName");
-    var notifJson = Context.Session.GetString("UserNotifications");
-    var options = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-    var notifications = string.IsNullOrEmpty(notifJson)
-        ? new List<NotificationDto>()
-        : JsonSerializer.Deserialize<List<NotificationDto>>(notifJson, options);
-    var unreadCount = notifications?.Count(n => n.IsRead == false);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -97,50 +91,20 @@
                             <i class="fa fa-cog cursor-pointer" style="font-size: 1.2rem;" title="Thiết lập"></i>
                         </a>
                     </li>
-
-                    <li class="nav-item dropdown d-flex align-items-center" style="margin-left: 0px !important; margin: 0px !important">
+                    <li class="nav-item dropdown d-flex align-items-center ms-3">
                         <a href="javascript:;" class="nav-link text-body p-0" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false">
-                            <div class="position-relative">
+                            <div class="position-relative" id="notificationIconContainer">
                                 <i class="fa fa-bell cursor-pointer" style="font-size: 1.2rem;"></i>
-                                @if (unreadCount > 0)
-                                {
-                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="padding: 3px; border: 2px solid #fff;">
-                                        <span class="visually-hidden">New alerts</span>
-                                    </span>
-                                }
                             </div>
                         </a>
 
-                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4" style="max-height: 350px; overflow-y: auto;" aria-labelledby="dropdownMenuButton">
-                            @if (notifications != null && notifications.Any())
-                            {
-                                @foreach (var item in notifications)
-                                {
-                                    <li class="mb-2">
-                                        <a class="dropdown-item border-radius-md" href="javascript:;" onclick="showNotificationDetail(@item.NotificationId)">
-                                            <div class="d-flex py-1">
-                                                <div class="my-auto">
-                                                    <i class="fa-solid @(item.Type == "Warning" ? "fa-triangle-exclamation text-warning" : "fa-envelope text-primary") me-3"></i>
-                                                </div>
-                                                <div class="d-flex flex-column justify-content-center">
-                                                    <h6 class="text-sm font-weight-normal mb-1">
-                                                        <span class="font-weight-bold">@item.Title</span>
-                                                    </h6>
-                                                    <p class="text-xs text-secondary mb-0">
-                                                        <i class="fa fa-clock me-1"></i> @item.TimeAgo
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </a>
-                                    </li>
-                                }
-                            }
-                            else
-                            {
-                                <li class="text-center p-2">
-                                    <p class="text-xs mb-0">Không có thông báo mới</p>
-                                </li>
-                            }
+                        <ul class="dropdown-menu dropdown-menu-end px-2 py-3 me-sm-n4"
+                            style="max-height: 350px; overflow-y: auto;"
+                            aria-labelledby="dropdownMenuButton"
+                            id="notificationList">
+                            <li class="text-center p-2">
+                                <p class="text-xs mb-0">Đang tải thông báo...</p>
+                            </li>
                         </ul>
                     </li>
                 </ul>

@@ -2,9 +2,10 @@
 {
     public class DashboardStatsDto
     {
-        public decimal WalletValue { get; set; }
+        public decimal IncomeValue { get; set; }
         public decimal ExpensesValue { get; set; }
-        public double GrowthRate { get; set; }
+        public int IncomeTransactions { get; set; }
+        public int ExpensesTransactions { get; set; }
         public int ActiveGoalsCount { get; set; }
         public double OverallGoalProgress { get; set; }
         public decimal SavingValue { get; set; }

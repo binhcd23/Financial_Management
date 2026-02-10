@@ -50,6 +50,13 @@ namespace Financial_Management_Server.Repositories.Finances
                                   w.IsDelete == false);
         }
 
+        public async Task<Wallet?> GetWalletByIdAsync(int walletId)
+        {
+            return await _context.Wallets
+               .AsNoTracking()
+               .FirstOrDefaultAsync(w => w.WalletId == walletId && w.IsDelete == false);
+        }
+
         public async Task<List<Wallet>> GetWalletsByUserIdAsync(int userId)
         {
             return await _context.Wallets

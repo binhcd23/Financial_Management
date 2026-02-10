@@ -13,6 +13,13 @@ namespace Financial_Management_Server.Repositories.Finances
             _context = context;
         }
 
+        public async Task<Category?> GetByIdAsync(int categoryId)
+        {
+            return await _context.Categories
+                   .AsNoTracking()
+                   .FirstOrDefaultAsync(c => c.CategoryId == categoryId);
+        }
+
         public async Task<List<Category>> GetCategoriesAsync()
         {
             return await _context.Categories

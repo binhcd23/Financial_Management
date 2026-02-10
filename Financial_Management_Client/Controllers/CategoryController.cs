@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Financial_Management_Server.DTOs.Finances;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Financial_Management_Client.Controllers
 {
@@ -11,6 +12,7 @@ namespace Financial_Management_Client.Controllers
             _logger = logger;
             _httpClient = httpClientFactory.CreateClient("default");
         }
+
         [HttpGet]
         public async Task<IActionResult> GetCategories()
         {
@@ -34,6 +36,26 @@ namespace Financial_Management_Client.Controllers
                 return StatusCode(500);
             }
 
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetCategoriesForTransaction()
+        {
+            try
+            {
+                var resp = await _httpClient.GetAsync("api/Categories");
+                if (resp.IsSuccessStatusCode)
+                {
+                    var categories = await resp.Content.ReadFromJsonAsync<List<CategoriesDto>>();
+                    return Json(categories);
+                }
+                return BadRequest();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi lấy danh sách category");
+                return StatusCode(500);
+            }
         }
     }
 }

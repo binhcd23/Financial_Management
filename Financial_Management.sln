@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35222.181
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Financial_Management_Server", "Financial_Management_Server\Financial_Management_Server.csproj", "{210F830D-B556-4C25-8D98-4BB6D24A37CA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Financial_Management_Client", "Financial_Management_Client\Financial_Management_Client.csproj", "{312D77C8-1FD7-4614-828F-8052E2529354}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Financial_Management_Client", "Financial_Management_Client\Financial_Management_Client.csproj", "{312D77C8-1FD7-4614-828F-8052E2529354}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

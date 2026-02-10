@@ -24,26 +24,12 @@ namespace Financial_Management_Server.Services.Finances
             var now = DateOnly.FromDateTime(DateTime.Now);
             var start = request.startDate ?? new DateOnly(now.Year, now.Month, 1);
             var end = request.endDate ?? now;
-            var firstDayLastMonth = new DateOnly(now.Year, now.Month, 1).AddMonths(-1);
-            var lastDayLastMonth = new DateOnly(now.Year, now.Month, 1).AddDays(-1);
 
             var wallet =  await _walletRepository.GetWalletsByUserIdAsync(request.userId);
             var transactions = await _transactionRepository.GetTransactionsAsync(request.userId);
             var catrgorirs = await _categoryRepository.GetCategoriesAsync();
             var goals = await _goalRepository.GetGoalsAsync(request.userId);
-          
-            // giao dịch tháng này
-            var monthlyTransactions = transactions
-                .Where(t => t.TransactionDate.Month == now.Month &&
-                            t.TransactionDate.Year == now.Year)
-                .ToList();
-
-            // giao dịch tháng trước
-            var lastMonthTransactions = transactions
-               .Where(t => t.TransactionDate >= firstDayLastMonth && 
-                           t.TransactionDate <= lastDayLastMonth)
-               .ToList();
-
+         
             // giao dịch start -> end
             var filteredTransactions = transactions
                  .Where(t => t.TransactionDate >= start && 
@@ -99,32 +85,27 @@ namespace Financial_Management_Server.Services.Finances
             double overallGoalProgress = totalTargetAmount > 0
                 ? (double)Math.Round((totalCurrentAmount / totalTargetAmount) * 100, 1)
                 : 0;
-            // giá trị ví dùng chi tiêu
-            var walletValue = wallet.FirstOrDefault(w => w.IsDefault)?.Balance ?? 0;
+
+            // tổng thu
+            var incomeValue = transactions
+                 .Where(t => t.Category!.Type == "Income")
+                 .Sum(t => t.Amount);
 
             // tổng chi tháng này
-            var expensesValue = monthlyTransactions
+            var expensesValue = transactions
                 .Where(t => t.Category!.Type == "Expense")
                 .Sum(t => t.Amount);
 
-            //tổng chi tháng trước
-            var lastExpensesValue = lastMonthTransactions
-               .Where(t => t.Category!.Type == "Expense")
-               .Sum(t => t.Amount);
-
-            // tỉ lệ chi tiêu so vơi tháng trước
-            var growthRate = lastExpensesValue > 0
-                 ? Math.Round((double)((expensesValue - lastExpensesValue) / lastExpensesValue * 100), 2)
-                 : 0;
-            // giá trị tiết kiệm
+          
             var savingValue = wallet
                 .Where(w => w.WalletType == "Savings")
                 .Sum(w => w.Balance) ?? 0;
             return new DashboardStatsDto
             {
-                WalletValue = walletValue,
+                IncomeValue = incomeValue,
                 ExpensesValue = expensesValue,
-                GrowthRate = double.IsInfinity(growthRate) ? 0 : growthRate,
+                IncomeTransactions = transactions.Where(t => t.Category!.Type == "Income").Count(),
+                ExpensesTransactions = transactions.Where(t => t.Category!.Type == "Expense").Count(),
                 ActiveGoalsCount = goals.Count(g => g.Status == "Active"),
                 OverallGoalProgress = overallGoalProgress,
                 SavingValue = savingValue,

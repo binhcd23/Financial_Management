@@ -19,6 +19,28 @@ namespace Financial_Management_Server.Controllers.Finances
             _logger = logger;
         }
 
+        [HttpGet]
+        public async Task<IActionResult> GetCategories()
+        {
+            try
+            {
+                _logger.LogInformation("Đang lấy danh mục cho user");
+                var categories = await _categoryService.GetCategoriesAsync();
+
+                if (categories == null || !categories.Any())
+                {
+                    return Ok(new List<object>());
+                }
+
+                return Ok(categories);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Lỗi khi lấy danh mục cho User");
+                return StatusCode(500, new { success = false, message = "Lỗi hệ thống khi tải danh mục." });
+            }
+        }
+
         [HttpGet("without-budget/{userId}")]
         public async Task<IActionResult> GetCategoriesWithoutBudget(int userId)
         {

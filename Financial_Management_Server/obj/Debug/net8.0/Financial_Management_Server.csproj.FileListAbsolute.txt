@@ -246,3 +246,9 @@ D:\Personal_Project\Financial_Management_Server\obj\Debug\net8.0\scopedcss\bundl
 D:\Personal_Project\Financial_Management_Server\obj\Debug\net8.0\Financia.D02EF2ED.Up2Date
 D:\Personal_Project\Financial_Management_Server\obj\Debug\net8.0\Financial_Management_Server.genruntimeconfig.cache
 D:\Personal_Project\Financial_Management_Server\obj\Debug\net8.0\ref\Financial_Management_Server.dll
+D:\Personal_Project\Financial_Management_Server\bin\Debug\net8.0\Microsoft.Win32.SystemEvents.dll
+D:\Personal_Project\Financial_Management_Server\bin\Debug\net8.0\QRCoder.dll
+D:\Personal_Project\Financial_Management_Server\bin\Debug\net8.0\System.Drawing.Common.dll
+D:\Personal_Project\Financial_Management_Server\bin\Debug\net8.0\runtimes\win\lib\net6.0\Microsoft.Win32.SystemEvents.dll
+D:\Personal_Project\Financial_Management_Server\bin\Debug\net8.0\runtimes\unix\lib\net6.0\System.Drawing.Common.dll
+D:\Personal_Project\Financial_Management_Server\bin\Debug\net8.0\runtimes\win\lib\net6.0\System.Drawing.Common.dll

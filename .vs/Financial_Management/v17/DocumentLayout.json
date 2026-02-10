@@ -3,12 +3,16 @@
   "WorkspaceRootPath": "D:\\Personal_Project\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\wwwroot\\js\\config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
-      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\wwwroot\\js\\config.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\views\\finance\\billing.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\views\\finance\\billing.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\controllers\\usertaxprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\controllers\\usertaxprofilecontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\wwwroot\\js\\billing.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}",
+      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\wwwroot\\js\\billing.js||{14D17961-FE51-464D-9111-C4AF11D7D99A}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|d:\\personal_project\\financial_management_client\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{312D77C8-1FD7-4614-828F-8052E2529354}|Financial_Management_Client\\Financial_Management_Client.csproj|solutionrelative:financial_management_client\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -18,7 +22,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 4,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,28 +34,41 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Financial_Management_Client\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Financial_Management_Client\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AgIAAIoAAAAAAAAAAAAAAJQAAAAOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-10T15:40:56.575Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "UsertaxprofileController.cs",
-              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\Controllers\\UsertaxprofileController.cs",
-              "RelativeDocumentMoniker": "Financial_Management_Client\\Controllers\\UsertaxprofileController.cs",
-              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\Controllers\\UsertaxprofileController.cs",
-              "RelativeToolTip": "Financial_Management_Client\\Controllers\\UsertaxprofileController.cs",
-              "ViewState": "AgIAADIAAAAAAAAAAAA3wEEAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-02-08T08:36:04.476Z",
+              "Title": "billing.js",
+              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\wwwroot\\js\\billing.js",
+              "RelativeDocumentMoniker": "Financial_Management_Client\\wwwroot\\js\\billing.js",
+              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\wwwroot\\js\\billing.js",
+              "RelativeToolTip": "Financial_Management_Client\\wwwroot\\js\\billing.js",
+              "ViewState": "AgIAAMwAAAAAAAAAAAAmwDoBAAADAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
+              "WhenOpened": "2026-02-10T15:19:40.717Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "config.js",
-              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\wwwroot\\js\\config.js",
-              "RelativeDocumentMoniker": "Financial_Management_Client\\wwwroot\\js\\config.js",
-              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\wwwroot\\js\\config.js",
-              "RelativeToolTip": "Financial_Management_Client\\wwwroot\\js\\config.js",
-              "ViewState": "AgIAAIYAAAAAAAAAAADwv5AAAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001646|",
-              "WhenOpened": "2026-02-08T08:31:48.483Z",
+              "Title": "Billing.cshtml",
+              "DocumentMoniker": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Finance\\Billing.cshtml",
+              "RelativeDocumentMoniker": "Financial_Management_Client\\Views\\Finance\\Billing.cshtml",
+              "ToolTip": "D:\\Personal_Project\\Financial_Management_Client\\Views\\Finance\\Billing.cshtml",
+              "RelativeToolTip": "Financial_Management_Client\\Views\\Finance\\Billing.cshtml",
+              "ViewState": "AgIAAEAAAAAAAAAAAAAUwFkAAAAqAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2026-02-10T14:05:06.963Z",
               "EditorCaption": ""
             }
           ]

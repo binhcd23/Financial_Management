@@ -1,5 +1,7 @@
-﻿using Financial_Management_Server.DTOs.Finances;
+﻿using Financial_Management_Server.DTOs;
+using Financial_Management_Server.DTOs.Finances;
 using Financial_Management_Server.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Financial_Management_Server.Interfaces.Finances
 {
@@ -12,5 +14,6 @@ namespace Financial_Management_Server.Interfaces.Finances
         Task<bool> UpdateAsync(int walletId);
         Task<WalletResponses> AddAsync(WalletDto dto);
         Task<bool> DeleteAsync(int walletId);
+        Task<TransferResponses> TransferAsync(TransferRequest request);
     }
 }

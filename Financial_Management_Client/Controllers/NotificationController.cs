@@ -17,6 +17,25 @@ namespace Financial_Management_Client.Controllers
             _config = configuration;
             _httpClient = httpClientFactory.CreateClient("default");
         }
+
+        [HttpGet]
+        public async Task<IActionResult> GetLatestNotifications()
+        {
+            var userIdStr = HttpContext.Session.GetString("UserId");
+            if (string.IsNullOrEmpty(userIdStr)) return RedirectToAction("Login", "Account");
+
+            int userId = int.Parse(userIdStr);
+
+            var response = await _httpClient.GetAsync($"api/Notification/user/{userId}");
+            if (response.IsSuccessStatusCode)
+            {
+                var json = await response.Content.ReadAsStringAsync();
+                HttpContext.Session.SetString("UserNotifications", json);
+                return Content(json, "application/json");
+            }
+            return BadRequest();
+        }
+
         [HttpPost]
         public async Task<IActionResult> MarkAsRead(int notificationId)
         {
